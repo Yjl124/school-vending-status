@@ -4,7 +4,7 @@ import { subscribeToVendingItems, subscribeToMetadata, isDatabaseMock } from './
 import { VendingItemVector } from './components/VendingItemVector';
 import { AdminPanel } from './components/AdminPanel';
 import { AdminGate } from './components/AdminGate';
-import { isGeminiConfigured } from './geminiService';
+import { isGeminiConfigured, getApiUrl } from './geminiService';
 import { StatusPage } from './components/StatusPage';
 
 function App() {
@@ -16,17 +16,30 @@ function App() {
   const [secretCounter, setSecretCounter] = useState(0);
   const [isSessionAuthorized, setIsSessionAuthorized] = useState(false);
   const [hasGemini, setHasGemini] = useState(false);
+  const [isBackendOnline, setIsBackendOnline] = useState('checking'); // 'checking', 'online', 'offline'
   const [isStatus, setIsStatus] = useState(
     window.location.hash === '#status' || window.location.hash === '#/status'
   );
 
-  // Check Gemini connectivity from backend status
+  // Check Backend and Gemini connectivity from status endpoint
   useEffect(() => {
-    const checkGemini = async () => {
-      const configured = await isGeminiConfigured();
-      setHasGemini(configured);
+    const checkBackend = async () => {
+      try {
+        const response = await fetch(`${getApiUrl()}/api/status`);
+        if (response.ok) {
+          const data = await response.json();
+          setIsBackendOnline('online');
+          setHasGemini(!!data.geminiReady);
+        } else {
+          setIsBackendOnline('offline');
+          setHasGemini(false);
+        }
+      } catch (e) {
+        setIsBackendOnline('offline');
+        setHasGemini(false);
+      }
     };
-    checkGemini();
+    checkBackend();
   }, []);
 
   // Synchronize routing state with URL hash
@@ -180,7 +193,11 @@ function App() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div 
+            onClick={navigateToStatus}
+            className="flex flex-wrap items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+            title="Click to open System Status Dashboard"
+          >
             {/* Firebase Status Badge */}
             <div className="flex items-center gap-2 bg-toss-gray-bg/50 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-toss-text-secondary border border-toss-border/30">
               <span className="relative flex h-2 w-2">
@@ -190,6 +207,22 @@ function App() {
               <span>Firebase:</span>
               <span className={isDatabaseMock() ? "text-amber-600 font-bold" : "text-toss-blue font-bold"}>
                 {isDatabaseMock() ? "Offline (Local)" : "Online (Firestore)"}
+              </span>
+            </div>
+
+            {/* Render Backend Status Badge */}
+            <div className="flex items-center gap-2 bg-toss-gray-bg/50 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-toss-text-secondary border border-toss-border/30">
+              <span className="relative flex h-2 w-2">
+                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                  isBackendOnline === 'online' ? 'bg-emerald-400' : isBackendOnline === 'offline' ? 'bg-red-400' : 'bg-amber-400'
+                }`}></span>
+                <span className={`relative inline-flex rounded-full h-2 w-2 ${
+                  isBackendOnline === 'online' ? 'bg-emerald-500' : isBackendOnline === 'offline' ? 'bg-red-500' : 'bg-amber-500'
+                }`}></span>
+              </span>
+              <span>Render Server:</span>
+              <span className={isBackendOnline === 'online' ? "text-toss-blue font-bold" : isBackendOnline === 'offline' ? "text-red-500 font-bold" : "text-amber-500 font-bold"}>
+                {isBackendOnline === 'online' ? "Online" : isBackendOnline === 'offline' ? "Offline" : "Connecting..."}
               </span>
             </div>
 

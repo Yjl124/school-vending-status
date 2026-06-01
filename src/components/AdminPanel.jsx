@@ -8,6 +8,7 @@ import {
 } from '../firebase';
 import { 
   isGeminiConfigured,
+  getApiUrl,
   analyzeVendingMachineImage 
 } from '../geminiService';
 
@@ -18,15 +19,28 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
   const [scanError, setScanError] = useState(null);
   const [scanSuccess, setScanSuccess] = useState(false);
   const [hasGemini, setHasGemini] = useState(false);
+  const [isBackendOnline, setIsBackendOnline] = useState('checking'); // 'checking', 'online', 'offline'
 
   const dbMode = isDatabaseMock() ? 'Local Mock (LocalStorage)' : 'Real-Time Cloud (Firebase Firestore)';
 
   useEffect(() => {
-    const checkGemini = async () => {
-      const configured = await isGeminiConfigured();
-      setHasGemini(configured);
+    const checkBackend = async () => {
+      try {
+        const response = await fetch(`${getApiUrl()}/api/status`);
+        if (response.ok) {
+          const data = await response.json();
+          setIsBackendOnline('online');
+          setHasGemini(!!data.geminiReady);
+        } else {
+          setIsBackendOnline('offline');
+          setHasGemini(false);
+        }
+      } catch (e) {
+        setIsBackendOnline('offline');
+        setHasGemini(false);
+      }
     };
-    checkGemini();
+    checkBackend();
   }, []);
 
   const handleImageChange = (e) => {
@@ -137,6 +151,22 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
             <span>Firebase:</span>
             <span className={isDatabaseMock() ? "text-amber-600 font-bold" : "text-toss-blue font-bold"}>
               {isDatabaseMock() ? "Offline (Local)" : "Online (Firestore)"}
+            </span>
+          </div>
+
+          {/* Render Backend Status Badge */}
+          <div className="flex items-center gap-2 bg-toss-gray-bg/50 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-toss-text-secondary border border-toss-border/30">
+            <span className="relative flex h-2 w-2">
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                isBackendOnline === 'online' ? 'bg-emerald-400' : isBackendOnline === 'offline' ? 'bg-red-400' : 'bg-amber-400'
+              }`}></span>
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${
+                isBackendOnline === 'online' ? 'bg-emerald-500' : isBackendOnline === 'offline' ? 'bg-red-500' : 'bg-amber-500'
+              }`}></span>
+            </span>
+            <span>Render Server:</span>
+            <span className={isBackendOnline === 'online' ? "text-toss-blue font-bold" : isBackendOnline === 'offline' ? "text-red-500 font-bold" : "text-amber-500 font-bold"}>
+              {isBackendOnline === 'online' ? "Online" : isBackendOnline === 'offline' ? "Offline" : "Connecting..."}
             </span>
           </div>
 
