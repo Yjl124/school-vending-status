@@ -26,7 +26,6 @@ app.post('/api/analyze', async (req, res) => {
   try {
     // Initialize Google Generative AI with the server's API key
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     // Extract raw base64 data and mime type
     let cleanBase64 = base64Image;
@@ -69,15 +68,34 @@ app.post('/api/analyze', async (req, res) => {
       Do not include any explanation, intro text, markdown block wraps, or formatting other than the valid JSON object itself. Respond ONLY with raw JSON.
     `;
 
-    const result = await model.generateContent([
-      prompt,
-      {
-        inlineData: {
-          data: cleanBase64,
-          mimeType: mimeType
-        }
+    // Attempt to generate content using fallback models
+    const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash"];
+    let result = null;
+    let lastError = null;
+
+    for (const modelName of modelsToTry) {
+      try {
+        console.log(`Attempting analysis with model: ${modelName}`);
+        const model = genAI.getGenerativeModel({ model: modelName });
+        result = await model.generateContent([
+          prompt,
+          {
+            inlineData: {
+              data: cleanBase64,
+              mimeType: mimeType
+            }
+          }
+        ]);
+        break; // Successfully generated content, stop loop
+      } catch (err) {
+        console.warn(`Model ${modelName} failed or was unavailable:`, err.message || err);
+        lastError = err;
       }
-    ]);
+    }
+
+    if (!result) {
+      throw lastError || new Error("All generative AI models failed to respond.");
+    }
 
     const textResponse = result.response.text().trim();
     console.log("Raw Gemini Response from backend:", textResponse);
