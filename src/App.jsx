@@ -5,6 +5,7 @@ import { VendingItemVector } from './components/VendingItemVector';
 import { AdminPanel } from './components/AdminPanel';
 import { AdminGate } from './components/AdminGate';
 import { isGeminiConfigured } from './geminiService';
+import { StatusPage } from './components/StatusPage';
 
 function App() {
   const [items, setItems] = useState([]);
@@ -15,6 +16,9 @@ function App() {
   const [secretCounter, setSecretCounter] = useState(0);
   const [isSessionAuthorized, setIsSessionAuthorized] = useState(false);
   const [hasGemini, setHasGemini] = useState(false);
+  const [isStatus, setIsStatus] = useState(
+    window.location.hash === '#status' || window.location.hash === '#/status'
+  );
 
   // Check Gemini connectivity from backend status
   useEffect(() => {
@@ -29,7 +33,9 @@ function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const activeAdmin = window.location.hash === '#admin' || window.location.hash === '#/admin';
+      const activeStatus = window.location.hash === '#status' || window.location.hash === '#/status';
       setIsAdmin(activeAdmin);
+      setIsStatus(activeStatus);
       if (!activeAdmin) {
         setIsSessionAuthorized(false);
       }
@@ -56,6 +62,10 @@ function App() {
 
   const navigateToAdmin = () => {
     window.location.hash = '#admin';
+  };
+
+  const navigateToStatus = () => {
+    window.location.hash = '#status';
   };
 
   const navigateToGrid = () => {
@@ -88,6 +98,12 @@ function App() {
       return 'Just now';
     }
   };
+
+  if (isStatus) {
+    return (
+      <StatusPage onClose={navigateToGrid} />
+    );
+  }
 
   if (isAdmin) {
     if (!isSessionAuthorized) {
@@ -260,6 +276,13 @@ function App() {
       <footer className="w-full max-w-5xl mx-auto px-4 py-8 mt-12 border-t border-toss-border/40 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold text-toss-text-tertiary">
         <span>© 2026 School Hackathon Vending Tracker</span>
         <div className="flex items-center gap-4">
+          <button 
+            onClick={navigateToStatus}
+            className="hover:text-toss-blue transition-colors cursor-pointer"
+          >
+            System Status Dashboard
+          </button>
+          <span>•</span>
           <button 
             onClick={navigateToAdmin}
             className="hover:text-toss-blue transition-colors cursor-pointer"
