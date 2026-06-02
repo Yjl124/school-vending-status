@@ -67,7 +67,7 @@ export const isDatabaseMock = () => isMock;
 export const subscribeToVendingItems = (callback) => {
   if (!isMock && db) {
     const colRef = collection(db, "vending_items");
-    return onSnapshot(colRef, (snapshot) => {
+    return onSnapshot(colRef, async (snapshot) => {
       if (snapshot.empty) {
         // Seed database
         await Promise.all(initialVendingItems.map((item) =>
