@@ -88,11 +88,22 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
     setTimeout(async () => {
       // Create a mock mapping that randomizes a few sold out items
       const mockResult = {};
-      const slotIds = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4"];
+      const slotIds = [
+        "60", "61", "62", "63", "64", "65", "66", "67",
+        "50", "51", "52", "53", "54", "55", "56", "57",
+        "40", "41", "42", "43", "44", "45", "46", "47",
+        "30", "31", "32", "33", "34", "35", "36", "37",
+        "20", "21", "22", "23", "24", "25", "26", "27",
+        "11", "13", "15", "17"
+      ];
       
       slotIds.forEach(id => {
-        // Randomly make 2 or 3 items sold out, keep others in stock
-        mockResult[id] = Math.random() > 0.25; 
+        // Randomly toggle stock but make sure 64 and 15 default to sold out occasionally, or simulate randomly
+        if (id === "64" || id === "15") {
+          mockResult[id] = Math.random() > 0.9; // Usually sold out
+        } else {
+          mockResult[id] = Math.random() > 0.15; // Mostly in stock
+        }
       });
 
       try {
@@ -192,7 +203,7 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-bold text-toss-text-primary">Manual Stock Overrides</h2>
             <span className="text-xs px-2.5 py-1 bg-toss-blue-light text-toss-blue font-bold rounded-full">
-              4x3 Grid Matrix
+              6 Shelves (44 Slots)
             </span>
           </div>
 
@@ -284,7 +295,7 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
                 <div className="bg-toss-blue-light/50 border border-toss-blue/20 rounded-2xl p-4 flex items-center gap-3">
                   <div className="w-5 h-5 border-3 border-toss-blue border-t-transparent rounded-full animate-spin"></div>
                   <div className="text-xs text-toss-blue font-semibold">
-                    Gemini 2.5 Flash is scanning slots A1-C4...
+                    Gemini AI is scanning slots 11-67...
                   </div>
                 </div>
               )}

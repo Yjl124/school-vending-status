@@ -38,31 +38,66 @@ app.post('/api/analyze', async (req, res) => {
     }
 
     const prompt = `
-      Analyze this image of a school vending machine. The vending machine consists of a 4x3 grid of slots containing snacks and drinks.
-      The slots are mapped as follows:
-      - Row A (Top Row): A1, A2, A3, A4 (left-to-right)
-      - Row B (Middle Row): B1, B2, B3, B4 (left-to-right)
-      - Row C (Bottom Row): C1, C2, C3, C4 (left-to-right)
+      Analyze this image of a school vending machine. The vending machine consists of 6 rows (shelves) of items.
+      The rows and their corresponding slot ID mappings are as follows:
+      - Row 6 (Top Shelf): 60, 61, 62, 63, 64, 65, 66, 67 (8 slots, left-to-right)
+      - Row 5 (Second Shelf): 50, 51, 52, 53, 54, 55, 56, 57 (8 slots, left-to-right)
+      - Row 4 (Third Shelf): 40, 41, 42, 43, 44, 45, 46, 47 (8 slots, left-to-right)
+      - Row 3 (Fourth Shelf): 30, 31, 32, 33, 34, 35, 36, 37 (8 slots, left-to-right)
+      - Row 2 (Fifth Shelf): 20, 21, 22, 23, 24, 25, 26, 27 (8 slots, left-to-right)
+      - Row 1 (Bottom Shelf): 11, 13, 15, 17 (4 slots, left-to-right)
 
-      For each of the 12 slot IDs (A1 to C4), determine if the item in that slot is "in stock" (at least one item is present in the slot) or "sold out" (the slot is empty or a sold out message/tag is present).
+      For each of the 44 slot IDs, determine if the item in that slot is "in stock" (at least one item is present in the slot) or "sold out" (the slot is empty or a sold out label is present).
       - If items are visible: set to true.
       - If the slot is empty or clearly sold out: set to false.
 
-      Return a strict, valid JSON object mapping every slot ID (from A1 to C4) to its stock status (boolean).
+      Return a strict, valid JSON object mapping every single slot ID (from the list of 44 IDs above) to its stock status (boolean).
       Example Output:
       {
-        "A1": true,
-        "A2": true,
-        "A3": false,
-        "A4": true,
-        "B1": true,
-        "B2": false,
-        "B3": true,
-        "B4": true,
-        "C1": true,
-        "C2": true,
-        "C3": true,
-        "C4": false
+        "60": true,
+        "61": true,
+        "62": true,
+        "63": true,
+        "64": false,
+        "65": true,
+        "66": true,
+        "67": true,
+        "50": true,
+        "51": true,
+        "52": true,
+        "53": true,
+        "54": true,
+        "55": true,
+        "56": true,
+        "57": true,
+        "40": true,
+        "41": true,
+        "42": true,
+        "43": true,
+        "44": true,
+        "45": true,
+        "46": true,
+        "47": true,
+        "30": true,
+        "31": true,
+        "32": true,
+        "33": true,
+        "34": true,
+        "35": true,
+        "36": true,
+        "37": true,
+        "20": true,
+        "21": true,
+        "22": true,
+        "23": true,
+        "24": true,
+        "25": true,
+        "26": true,
+        "27": true,
+        "11": true,
+        "13": true,
+        "15": false,
+        "17": true
       }
 
       Do not include any explanation, intro text, markdown block wraps, or formatting other than the valid JSON object itself. Respond ONLY with raw JSON.
@@ -110,9 +145,12 @@ app.post('/api/analyze', async (req, res) => {
     
     // Validate slot IDs
     const requiredKeys = [
-      "A1", "A2", "A3", "A4",
-      "B1", "B2", "B3", "B4",
-      "C1", "C2", "C3", "C4"
+      "60", "61", "62", "63", "64", "65", "66", "67",
+      "50", "51", "52", "53", "54", "55", "56", "57",
+      "40", "41", "42", "43", "44", "45", "46", "47",
+      "30", "31", "32", "33", "34", "35", "36", "37",
+      "20", "21", "22", "23", "24", "25", "26", "27",
+      "11", "13", "15", "17"
     ];
     
     const validatedData = {};

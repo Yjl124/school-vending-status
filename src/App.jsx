@@ -240,67 +240,102 @@ function App() {
           </div>
         </div>
 
-        {/* 4x3 Vending Grid */}
+        {/* 6-Shelf Vending Cabinet Display */}
         {items.length === 0 ? (
           <div className="w-full bg-white rounded-3xl p-16 shadow-toss-card border border-toss-border/50 flex flex-col items-center justify-center gap-3">
             <div className="w-10 h-10 border-3 border-toss-blue border-t-transparent rounded-full animate-spin"></div>
             <p className="text-sm font-semibold text-toss-text-secondary">Loading vending machine layout...</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {items.map((item) => (
-              <div
-                key={item.id}
-                className={`relative bg-white rounded-[28px] p-6 border transition-all duration-300 flex flex-col justify-between min-h-[300px] ${
-                  item.inStock 
-                    ? 'border-toss-border/40 shadow-toss-card hover:shadow-toss-hover hover:-translate-y-1' 
-                    : 'border-toss-border/10 shadow-none'
-                }`}
-              >
-                {/* Upper Tag Row */}
-                <div className={`flex justify-between items-center ${!item.inStock && 'opacity-30'}`}>
-                  <span className="px-2.5 py-1 bg-toss-blue-light text-toss-blue text-xs font-bold rounded-lg tracking-wider">
-                    {item.id}
-                  </span>
-                  <span className="text-xs font-semibold text-toss-text-tertiary">
-                    {item.category}
-                  </span>
-                </div>
+          <div className="flex flex-col gap-8 bg-[#181d24] p-5 md:p-8 rounded-[36px] border-4 border-slate-900 shadow-2xl relative">
+            {/* Vending Glass Reflection Accents */}
+            <div className="absolute inset-0 rounded-[32px] overflow-hidden pointer-events-none z-10 opacity-[0.02]">
+              <div className="w-[150%] h-[150%] bg-gradient-to-tr from-transparent via-white to-transparent transform -rotate-45 -translate-x-1/4 -translate-y-1/4"></div>
+            </div>
 
-                {/* Vending Item Vector Graphic Container */}
-                <div className="relative h-44 my-4 flex items-center justify-center">
-                  
-                  {/* Stock Dependent Opacity Filter */}
-                  <div className={`w-full h-full max-h-36 ${item.inStock ? 'opacity-100' : 'opacity-30'}`}>
-                    <VendingItemVector 
-                      type={item.type} 
-                      brandColor={item.brandColor} 
-                      accentColor={item.accentColor} 
-                      name={item.name}
-                    />
+            {/* Render Row by Row */}
+            {[
+              { num: "6", name: "Shelf 6 — Snacks & Chips" },
+              { num: "5", name: "Shelf 5 — Jellies & Drinks" },
+              { num: "4", name: "Shelf 4 — Drinks & Sodas" },
+              { num: "3", name: "Shelf 3 — Cans & Juices" },
+              { num: "2", name: "Shelf 2 — Energy & Protein Bars" },
+              { num: "1", name: "Shelf 1 — Large Boxes & Wafers" }
+            ].map((rowInfo) => {
+              const rowItems = items.filter(item => item.id.startsWith(rowInfo.num));
+              const isBottomRow = rowInfo.num === "1";
+
+              return (
+                <div key={rowInfo.num} className="relative flex flex-col gap-3">
+                  {/* Row Header/Label */}
+                  <div className="flex justify-between items-center px-2">
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                      {rowInfo.name}
+                    </span>
+                    <span className="text-[10px] font-semibold text-slate-500 bg-slate-950 px-2 py-0.5 rounded-full">
+                      {rowItems.length} slots
+                    </span>
                   </div>
 
-                  {/* Sold Out Badge Overlay */}
-                  {!item.inStock && (
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <span className="px-4 py-2 bg-toss-gray-bg/95 border border-toss-border text-toss-text-secondary text-xs font-bold rounded-full shadow-md tracking-wide">
-                        Sold Out
-                      </span>
-                    </div>
-                  )}
-                </div>
+                  {/* Vending Shelf Rack */}
+                  <div className={`grid gap-4 ${isBottomRow ? 'grid-cols-2 md:grid-cols-4 max-w-4xl' : 'grid-cols-2 sm:grid-cols-4 lg:grid-cols-8'}`}>
+                    {rowItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className={`relative bg-slate-900/60 backdrop-blur-sm rounded-[20px] p-4 border transition-all duration-300 flex flex-col justify-between min-h-[230px] ${
+                          item.inStock 
+                            ? 'border-slate-800 shadow-lg hover:border-slate-700 hover:scale-[1.03] hover:shadow-xl z-20' 
+                            : 'border-slate-900 opacity-60'
+                        }`}
+                      >
+                        {/* Slot Tag */}
+                        <div className="flex justify-between items-center">
+                          <span className="px-2 py-0.5 bg-slate-800 text-slate-200 text-[10px] font-bold rounded-md">
+                            {item.id}
+                          </span>
+                          <span className="text-[9px] font-semibold text-slate-500">
+                            {item.category}
+                          </span>
+                        </div>
 
-                {/* Name & Price Tag */}
-                <div className={`text-center mt-2 ${!item.inStock && 'opacity-30'}`}>
-                  <h3 className="font-bold text-toss-text-primary text-base tracking-tight leading-tight">
-                    {item.name}
-                  </h3>
-                  <p className="text-toss-text-secondary text-sm font-medium mt-1">
-                    ₩{item.price.toLocaleString()}
-                  </p>
+                        {/* Vector representation */}
+                        <div className="relative h-28 my-2 flex items-center justify-center">
+                          <div className={`w-full h-full max-h-24 ${item.inStock ? 'opacity-100' : 'opacity-20'}`}>
+                            <VendingItemVector 
+                              type={item.type} 
+                              brandColor={item.brandColor} 
+                              accentColor={item.accentColor} 
+                              name={item.name}
+                            />
+                          </div>
+
+                          {!item.inStock && (
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <span className="px-2.5 py-1 bg-red-950/90 border border-red-800/50 text-red-400 text-[9px] font-black uppercase tracking-wider rounded-md shadow-md">
+                                Sold Out
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Item metadata */}
+                        <div className="text-center mt-1">
+                          <h4 className="font-bold text-white text-xs tracking-tight truncate max-w-full">
+                            {item.name}
+                          </h4>
+                          <p className="text-slate-400 text-[10px] font-medium mt-0.5">
+                            ₩{item.price.toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Physical Metal Coil / Rack Bottom Line Visualizer */}
+                  <div className="w-full h-2 bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 rounded-full border-t border-slate-900 mt-1"></div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

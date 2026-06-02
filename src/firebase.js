@@ -65,12 +65,24 @@ export const subscribeToVendingItems = (callback) => {
   if (!isMock && db) {
     const colRef = collection(db, "vending_items");
     return onSnapshot(colRef, async (snapshot) => {
-      if (snapshot.empty) {
-        // Seed database
-        await Promise.all(initialVendingItems.map((item) =>
-          setDoc(doc(db, "vending_items", item.id), item)
-        ));
-        callback(initialVendingItems);
+      if (snapshot.empty || snapshot.size !== initialVendingItems.length) {
+        console.log(`Vending items size mismatch (found ${snapshot.size}, expected ${initialVendingItems.length}). Migrating database...`);
+        try {
+          const batch = writeBatch(db);
+          // Delete all current documents in the snapshot
+          snapshot.forEach((d) => {
+            batch.delete(d.ref);
+          });
+          // Add all new items
+          initialVendingItems.forEach((item) => {
+            const docRef = doc(db, "vending_items", item.id);
+            batch.set(docRef, item);
+          });
+          await batch.commit();
+          console.log("Database migration completed successfully.");
+        } catch (err) {
+          console.error("Database migration failed:", err);
+        }
       } else {
         const items = [];
         snapshot.forEach((doc) => {
@@ -92,8 +104,22 @@ export const subscribeToVendingItems = (callback) => {
 let mockListeners = [];
 
 const setupMockSubscription = (callback) => {
-  if (!localStorage.getItem('vending_items_mock')) {
+  let needsReseed = true;
+  try {
+    const data = localStorage.getItem('vending_items_mock');
+    if (data) {
+      const items = JSON.parse(data);
+      if (items.length === initialVendingItems.length) {
+        needsReseed = false;
+      }
+    }
+  } catch (e) {
+    needsReseed = true;
+  }
+
+  if (needsReseed) {
     localStorage.setItem('vending_items_mock', JSON.stringify(initialVendingItems));
+    localStorage.setItem('vending_items_last_updated', new Date().toISOString());
   }
 
   const getCurrentItems = () => {

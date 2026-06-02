@@ -149,6 +149,26 @@ export const VendingItemVector = ({ type, brandColor, accentColor, name }) => {
         </svg>
       );
 
+    case 'bar':
+      return (
+        <svg viewBox="0 0 100 140" className="w-full h-full drop-shadow-[0_4px_12px_rgba(0,0,0,0.05)]" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Vertical Bar Wrapper Body */}
+          <rect x="25" y="15" width="50" height="110" rx="4" fill={brandColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+          {/* Crimped Top */}
+          <path d="M 22 15 L 78 15" stroke={strokeColor} strokeWidth="6" strokeLinecap="round" />
+          <path d="M 25 13 L 25 17 M 35 13 L 35 17 M 45 13 L 45 17 M 55 13 L 55 17 M 65 13 L 65 17 M 75 13 L 75 17" stroke="#ffffff" strokeWidth="2" opacity="0.5" />
+          {/* Crimped Bottom */}
+          <path d="M 22 125 L 78 125" stroke={strokeColor} strokeWidth="6" strokeLinecap="round" />
+          <path d="M 25 123 L 25 127 M 35 123 L 35 127 M 45 123 L 45 127 M 55 123 L 55 127 M 65 123 L 65 127 M 75 123 L 75 127" stroke="#ffffff" strokeWidth="2" opacity="0.5" />
+          {/* Brand/Accent Banner */}
+          <rect x="25" y="45" width="50" height="50" fill={accentColor} stroke={strokeColor} strokeWidth="2" />
+          {/* Minimal Text graphic inside banner */}
+          <path d="M 33 60 L 67 60" stroke={brandColor} strokeWidth="4" strokeLinecap="round" />
+          <path d="M 38 70 L 62 70" stroke={brandColor} strokeWidth="3" strokeLinecap="round" />
+          <path d="M 43 80 L 57 80" stroke={brandColor} strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      );
+
     default:
       return (
         <svg viewBox="0 0 100 140" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
