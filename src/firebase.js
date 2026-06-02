@@ -65,8 +65,21 @@ export const subscribeToVendingItems = (callback) => {
   if (!isMock && db) {
     const colRef = collection(db, "vending_items");
     return onSnapshot(colRef, async (snapshot) => {
-      if (snapshot.empty || snapshot.size !== initialVendingItems.length) {
-        console.log(`Vending items size mismatch (found ${snapshot.size}, expected ${initialVendingItems.length}). Migrating database...`);
+      let needsMigration = snapshot.empty || snapshot.size !== initialVendingItems.length;
+      
+      if (!needsMigration) {
+        // Compare item names to trigger migration on product metadata changes
+        const localMap = new Map(initialVendingItems.map(item => [item.id, item.name]));
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          if (localMap.get(data.id) !== data.name) {
+            needsMigration = true;
+          }
+        });
+      }
+
+      if (needsMigration) {
+        console.log(`Vending database migration triggered. Aligning keys and names...`);
         try {
           const batch = writeBatch(db);
           // Delete all current documents in the snapshot
@@ -110,7 +123,11 @@ const setupMockSubscription = (callback) => {
     if (data) {
       const items = JSON.parse(data);
       if (items.length === initialVendingItems.length) {
-        needsReseed = false;
+        const localMap = new Map(initialVendingItems.map(item => [item.id, item.name]));
+        const matches = items.every(item => localMap.get(item.id) === item.name);
+        if (matches) {
+          needsReseed = false;
+        }
       }
     }
   } catch (e) {
