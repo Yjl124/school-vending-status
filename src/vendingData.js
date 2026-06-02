@@ -2,7 +2,7 @@ export const initialVendingItems = [
   // Row 6 (Top Row: snacks)
   {
     id: "60",
-    name: "고래밥 (볶은양념)",
+    name: "고래밥",
     price: 800,
     category: "Snack",
     type: "bag",
@@ -12,7 +12,7 @@ export const initialVendingItems = [
   },
   {
     id: "61",
-    name: "고래밥 (볶은양념)",
+    name: "고래밥",
     price: 800,
     category: "Snack",
     type: "bag",
@@ -22,7 +22,7 @@ export const initialVendingItems = [
   },
   {
     id: "62",
-    name: "고래밥 (볶은양념)",
+    name: "고래밥",
     price: 800,
     category: "Snack",
     type: "bag",
@@ -32,7 +32,7 @@ export const initialVendingItems = [
   },
   {
     id: "63",
-    name: "고래밥 (볶은양념)",
+    name: "고래밥",
     price: 800,
     category: "Snack",
     type: "bag",
@@ -52,7 +52,7 @@ export const initialVendingItems = [
   },
   {
     id: "65",
-    name: "치킨팝 (닭강정맛)",
+    name: "치킨팝",
     price: 1200,
     category: "Snack",
     type: "bag",
@@ -62,7 +62,7 @@ export const initialVendingItems = [
   },
   {
     id: "66",
-    name: "치킨팝 (닭강정맛)",
+    name: "치킨팝",
     price: 1200,
     category: "Snack",
     type: "bag",
@@ -72,7 +72,7 @@ export const initialVendingItems = [
   },
   {
     id: "67",
-    name: "치킨팝 (닭강정맛)",
+    name: "치킨팝",
     price: 1200,
     category: "Snack",
     type: "bag",
@@ -186,7 +186,7 @@ export const initialVendingItems = [
   },
   {
     id: "42",
-    name: "데미소다 오렌지",
+    name: "비타 500",
     price: 1000,
     category: "Drink",
     type: "can",
@@ -196,42 +196,42 @@ export const initialVendingItems = [
   },
   {
     id: "43",
-    name: "데미소다 애플",
+    name: "비타 500",
     price: 1000,
     category: "Drink",
     type: "can",
-    brandColor: "#4b8f29",
+    brandColor: "#f7941d",
     accentColor: "#ffffff",
     inStock: true
   },
   {
     id: "44",
-    name: "코코팜 피치핑크",
+    name: "2%",
     price: 1000,
     category: "Drink",
     type: "can",
-    brandColor: "#ea5175",
-    accentColor: "#ffffff",
+    brandColor: "#f5cbd5",
+    accentColor: "#e55a73",
     inStock: true
   },
   {
     id: "45",
-    name: "코코팜 피치핑크",
+    name: "2%",
     price: 1000,
     category: "Drink",
     type: "can",
-    brandColor: "#ea5175",
-    accentColor: "#ffffff",
+    brandColor: "#f5cbd5",
+    accentColor: "#e55a73",
     inStock: true
   },
   {
     id: "46",
-    name: "데미소다 레몬",
+    name: "델몬트 망고",
     price: 800,
     category: "Drink",
     type: "can",
-    brandColor: "#fcee21",
-    accentColor: "#333333",
+    brandColor: "#e5b61a",
+    accentColor: "#10542c",
     inStock: true
   },
   {
@@ -258,62 +258,62 @@ export const initialVendingItems = [
   },
   {
     id: "31",
-    name: "초코칩쿠키",
+    name: "칸쵸",
     price: 1300,
     category: "Snack",
     type: "bag",
-    brandColor: "#1e355c",
-    accentColor: "#d4af37",
+    brandColor: "#6b462c",
+    accentColor: "#f4bfbb",
     inStock: true
   },
   {
     id: "32",
-    name: "칠성사이다",
+    name: "스퀴즈 사과 에이드",
     price: 800,
     category: "Drink",
     type: "can",
-    brandColor: "#007a3e",
+    brandColor: "#8ac43f",
     accentColor: "#ffffff",
     inStock: true
   },
   {
     id: "33",
-    name: "칠성사이다",
+    name: "스퀴즈 사과 에이드",
     price: 800,
     category: "Drink",
     type: "can",
-    brandColor: "#007a3e",
+    brandColor: "#8ac43f",
     accentColor: "#ffffff",
     inStock: true
   },
   {
     id: "34",
-    name: "웰치스 포도",
+    name: "스퀴즈 포도 에이드",
     price: 800,
     category: "Drink",
     type: "can",
-    brandColor: "#3a225d",
+    brandColor: "#7a509c",
     accentColor: "#ffffff",
     inStock: true
   },
   {
     id: "35",
-    name: "웰치스 딸기",
+    name: "스퀴즈 포도 에이드",
     price: 800,
     category: "Drink",
     type: "can",
-    brandColor: "#e01a22",
+    brandColor: "#7a509c",
     accentColor: "#ffffff",
     inStock: true
   },
   {
     id: "36",
-    name: "Pocari Sweat",
+    name: "토레타",
     price: 1000,
     category: "Drink",
     type: "can",
-    brandColor: "#0054a6",
-    accentColor: "#ffffff",
+    brandColor: "#99e2d8",
+    accentColor: "#e65860",
     inStock: true
   },
   {
@@ -370,22 +370,22 @@ export const initialVendingItems = [
   },
   {
     id: "24",
-    name: "닥터유 그래놀라바",
+    name: "오! 그래놀라 단백질바",
     price: 1200,
     category: "Snack",
     type: "bar",
-    brandColor: "#10542c",
-    accentColor: "#e31c23",
+    brandColor: "#e35925",
+    accentColor: "#ffffff",
     inStock: true
   },
   {
     id: "25",
-    name: "닥터유 그래놀라바",
+    name: "오! 그래놀라 철분바",
     price: 1200,
     category: "Snack",
     type: "bar",
-    brandColor: "#10542c",
-    accentColor: "#e31c23",
+    brandColor: "#3d59ab",
+    accentColor: "#ffffff",
     inStock: true
   },
   {
