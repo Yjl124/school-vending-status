@@ -7,6 +7,11 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 dotenv.config();
 dotenv.config({ path: '.env.local' });
 
+// Initialize Gemini client once at startup
+const genAI = process.env.GEMINI_API_KEY
+  ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+  : null;
+
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '10mb' })); // Increase limit to accept base64 image data
@@ -17,16 +22,11 @@ app.post('/api/analyze', async (req, res) => {
     return res.status(400).json({ error: "Missing base64Image in request body" });
   }
 
-  // Retrieve Gemini API Key server-side
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
+  if (!genAI) {
     return res.status(500).json({ error: "GEMINI_API_KEY environment variable is not configured on the server." });
   }
 
   try {
-    // Initialize Google Generative AI with the server's API key
-    const genAI = new GoogleGenerativeAI(apiKey);
-
     // Extract raw base64 data and mime type
     let cleanBase64 = base64Image;
     let mimeType = "image/jpeg";

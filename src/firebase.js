@@ -70,9 +70,9 @@ export const subscribeToVendingItems = (callback) => {
     return onSnapshot(colRef, (snapshot) => {
       if (snapshot.empty) {
         // Seed database
-        initialVendingItems.forEach(async (item) => {
-          await setDoc(doc(db, "vending_items", item.id), item);
-        });
+        await Promise.all(initialVendingItems.map((item) =>
+          setDoc(doc(db, "vending_items", item.id), item)
+        ));
         callback(initialVendingItems);
       } else {
         const items = [];

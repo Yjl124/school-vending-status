@@ -4,7 +4,7 @@ import { subscribeToVendingItems, subscribeToMetadata, isDatabaseMock } from './
 import { VendingItemVector } from './components/VendingItemVector';
 import { AdminPanel } from './components/AdminPanel';
 import { AdminGate } from './components/AdminGate';
-import { isGeminiConfigured, getApiUrl } from './geminiService';
+import { getApiUrl } from './geminiService';
 import { StatusPage } from './components/StatusPage';
 
 function App() {

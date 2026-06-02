@@ -308,7 +308,7 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
                     </svg>
                     <span className="text-xs text-red-700 font-bold">Scan Failed</span>
                   </div>
-                  <p className="text-[11px] text-red-600 font-medium leading-relaxed leading-snug">{scanError}</p>
+                  <p className="text-[11px] text-red-600 font-medium leading-snug">{scanError}</p>
                 </div>
               )}
             </div>
