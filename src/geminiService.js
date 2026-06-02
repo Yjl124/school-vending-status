@@ -1,6 +1,5 @@
-// Retrieve the backend API URL (defaults to localhost:3001 in development)
 export const getApiUrl = () => {
-  return import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  return import.meta.env.VITE_API_URL || 'https://school-vending-status.onrender.com';
 };
 
 // Check if Gemini is configured on the backend server

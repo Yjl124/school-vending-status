@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, doc, setDoc, onSnapshot, collection, writeBatch } from 'firebase/firestore';
 import { initialVendingItems } from './vendingData';
 
@@ -28,20 +28,17 @@ export const saveStoredFirebaseConfig = (config) => {
 };
 
 export const getFirebaseConfig = () => {
+  // Hardcoded fallback keys for seamless out-of-the-box deployment (Firebase API keys are public by design)
   const envConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBraQqchO129F3cKPRGNjdd6VFtwni-GA",
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "vending-e47b9.firebaseapp.com",
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "vending-e47b9",
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "vending-e47b9.firebasestorage.app",
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "783599279804",
+    appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:783599279804:web:995044f8e76b2f587b3ab9",
   };
 
-  if (envConfig.apiKey) {
-    return envConfig;
-  }
-
-  return getStoredFirebaseConfig();
+  return envConfig;
 };
 
 let db = null;
@@ -50,7 +47,7 @@ let isMock = true;
 const config = getFirebaseConfig();
 if (config && config.apiKey) {
   try {
-    const app = initializeApp(config);
+    const app = getApps().length === 0 ? initializeApp(config) : getApp();
     db = getFirestore(app);
     isMock = false;
     console.log("Firebase initialized successfully in REAL CLOUD mode.");
