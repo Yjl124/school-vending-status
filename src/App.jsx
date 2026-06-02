@@ -7,30 +7,7 @@ import { AdminGate } from './components/AdminGate';
 import { getApiUrl } from './geminiService';
 import { StatusPage } from './components/StatusPage';
 
-const productPhotos = {
-  "고래밥": "https://images.unsplash.com/photo-1621932953986-15fcfec8f908?auto=format&fit=crop&w=400&q=80",
-  "치킨팝": "https://images.unsplash.com/photo-1599490659213-e2b9527ec087?auto=format&fit=crop&w=400&q=80",
-  "곤약젤리 사과": "https://images.unsplash.com/photo-1576186726580-a817e4ed0b3b?auto=format&fit=crop&w=400&q=80",
-  "곤약젤리 청포도": "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&w=400&q=80",
-  "Pocari Sweat": "https://i5.walmartimages.com/asr/31bb3a20-3343-4e8a-accc-df0c06a3782b.477c7c5ad9ceb6348bb95b281f62c040.jpeg",
-  "Powerade": "https://images.unsplash.com/photo-1625772290748-39093c68f80c?auto=format&fit=crop&w=400&q=80",
-  "Gatorade Blue": "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?auto=format&fit=crop&w=400&q=80",
-  "비타 500": "https://i5.walmartimages.com/asr/a40a5a3a-14d9-4d6d-96e0-b6fa065de2d7_1.d69e09d1ee44249a5b3a4a03c34e0a4f.jpeg",
-  "2%": "https://i5.walmartimages.com/asr/9d31131c-3430-4e31-90a4-d1fbe6ba7b70.825d1945efd37de75653b6ab50cf5df6.jpeg",
-  "델몬트 망고": "https://i5.walmartimages.com/asr/2bf5fb71-ebae-4d1e-92fb-6d7c7be93033.456860d5bfa780d6f455325ff4beea51.jpeg",
-  "구운감자": "https://i5.walmartimages.com/asr/f9919f85-f5be-443b-9e48-32eeefae0062.247c47d79b0c793fffa16c56784d5df6.jpeg",
-  "칸쵸": "https://i5.walmartimages.com/asr/fcfca5fa-bf9b-449e-b8d4-f65de1848bb2.c0fa4a83eeec1e89ce4a0352ef45b3a4.jpeg",
-  "스퀴즈 사과 에이드": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=400&q=80",
-  "스퀴즈 포도 에이드": "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=400&q=80",
-  "토레타": "https://i5.walmartimages.com/asr/97217983-5c8e-49b0-bc37-a16df733575c.9a6cf716d97c55cb6d3e86c06df9a5de.jpeg",
-  "닥터유 에너지바": "https://i5.walmartimages.com/asr/a4d95b5a-ec04-4b5a-93be-efca198a287c.f04a83eeec1e89ce4a0352ef45b3a4.jpeg",
-  "닥터유 단백질바": "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?auto=format&fit=crop&w=400&q=80",
-  "오! 그래놀라 단백질바": "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=400&q=80",
-  "오! 그래놀라 철분바": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80",
-  "콘푸라이트바": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=400&q=80",
-  "화이트하임": "https://i5.walmartimages.com/asr/52c6ea9b-1f5e-4bb5-a836-813c01bf042a_1.439c0eb1de44249a5b3a4a03c34e0a4f.jpeg",
-  "웨하스": "https://images.unsplash.com/photo-1558961309-dbdf006a1a0b?auto=format&fit=crop&w=400&q=80"
-};
+
 
 function App() {
   const [items, setItems] = useState([]);
@@ -46,7 +23,6 @@ function App() {
     window.location.hash === '#status' || window.location.hash === '#/status'
   );
   const [selectedItem, setSelectedItem] = useState(null);
-  const [modalViewMode, setModalViewMode] = useState('photo'); // 'photo' or 'vector'
 
   // Check Backend and Gemini connectivity from status endpoint
   useEffect(() => {
@@ -401,33 +377,24 @@ function App() {
               <div className="flex-1 flex flex-col items-center gap-4">
                 <div 
                   className="w-full aspect-square rounded-2xl flex items-center justify-center relative border border-slate-800/80 shadow-inner overflow-hidden p-6 bg-slate-950"
+                  style={{ 
+                    background: `radial-gradient(circle, ${selectedItem.brandColor}15 0%, #090d12 100%)` 
+                  }}
                 >
-                  {modalViewMode === 'photo' ? (
-                    <img 
-                      src={productPhotos[selectedItem.name] || "https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=400&q=80"} 
-                      alt={selectedItem.name} 
-                      className="w-full h-full object-cover rounded-xl shadow-md"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        setModalViewMode('vector'); // Fallback to vector on error
-                      }}
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center relative">
-                      <div className="w-40 h-40 transform hover:scale-105 transition-transform duration-300">
-                        <VendingItemVector 
-                          type={selectedItem.type} 
-                          brandColor={selectedItem.brandColor} 
-                          accentColor={selectedItem.accentColor} 
-                          name={selectedItem.name}
-                        />
-                      </div>
-                      <div 
-                        className="w-28 h-4 rounded-full filter blur-md opacity-30 mt-2"
-                        style={{ backgroundColor: selectedItem.brandColor }}
-                      ></div>
+                  <div className="w-full h-full flex flex-col items-center justify-center relative">
+                    <div className="w-40 h-40 transform hover:scale-105 transition-transform duration-300">
+                      <VendingItemVector 
+                        type={selectedItem.type} 
+                        brandColor={selectedItem.brandColor} 
+                        accentColor={selectedItem.accentColor} 
+                        name={selectedItem.name}
+                      />
                     </div>
-                  )}
+                    <div 
+                      className="w-28 h-4 rounded-full filter blur-md opacity-30 mt-2"
+                      style={{ backgroundColor: selectedItem.brandColor }}
+                    ></div>
+                  </div>
 
                   {/* Price Tag Badge */}
                   <span className="absolute top-4 left-4 px-3 py-1 bg-slate-900/90 text-white font-extrabold text-xs rounded-lg border border-slate-800 shadow-md">
@@ -438,26 +405,6 @@ function App() {
                   <span className="absolute top-4 right-4 px-3 py-1 bg-toss-blue/20 text-toss-blue font-black text-xs rounded-lg border border-toss-blue/30 uppercase tracking-wide">
                     SLOT {selectedItem.id}
                   </span>
-
-                  {/* View Mode Toggle Buttons */}
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex bg-slate-900/90 rounded-xl p-1 border border-slate-800 shadow-lg z-25">
-                    <button
-                      onClick={() => setModalViewMode('photo')}
-                      className={`px-3 py-1 text-[10px] font-bold rounded-lg transition-all cursor-pointer ${
-                        modalViewMode === 'photo' ? 'bg-toss-blue text-white shadow' : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      실물 사진 (Photo)
-                    </button>
-                    <button
-                      onClick={() => setModalViewMode('vector')}
-                      className={`px-3 py-1 text-[10px] font-bold rounded-lg transition-all cursor-pointer ${
-                        modalViewMode === 'vector' ? 'bg-toss-blue text-white shadow' : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      벡터 (Vector)
-                    </button>
-                  </div>
                 </div>
 
                 {/* Real-time Vending Status Badge */}
