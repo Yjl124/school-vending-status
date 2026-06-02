@@ -249,7 +249,7 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
         {/* Right Column: AI Vending Camera Scanner (5/12 cols) */}
         <div className="lg:col-span-5 bg-white rounded-3xl p-6 shadow-toss-card border border-toss-border/50 flex flex-col">
           <h2 className="text-xl font-bold text-toss-text-primary mb-2">Gemini Vision AI Scanner</h2>
-          <p className="text-xs text-toss-text-secondary mb-6">Upload a photo of the vending machine tray. Gemini will analyze all 12 slots and update the inventory instantly.</p>
+          <p className="text-xs text-toss-text-secondary mb-6">Upload a photo of the vending machine. Gemini will analyze all 44 slots and update the inventory instantly.</p>
           
           {/* File Upload Box */}
           <div className="flex-1 flex flex-col justify-between">
