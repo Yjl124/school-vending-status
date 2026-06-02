@@ -68,11 +68,12 @@ export const subscribeToVendingItems = (callback) => {
       let needsMigration = snapshot.empty || snapshot.size !== initialVendingItems.length;
       
       if (!needsMigration) {
-        // Compare item names to trigger migration on product metadata changes
-        const localMap = new Map(initialVendingItems.map(item => [item.id, item.name]));
+        // Compare item names and nutritionalInfo structure to trigger migration on product updates
+        const localMap = new Map(initialVendingItems.map(item => [item.id, item]));
         snapshot.forEach((doc) => {
           const data = doc.data();
-          if (localMap.get(data.id) !== data.name) {
+          const localItem = localMap.get(data.id);
+          if (!localItem || data.name !== localItem.name || !data.nutritionalInfo) {
             needsMigration = true;
           }
         });
@@ -123,8 +124,11 @@ const setupMockSubscription = (callback) => {
     if (data) {
       const items = JSON.parse(data);
       if (items.length === initialVendingItems.length) {
-        const localMap = new Map(initialVendingItems.map(item => [item.id, item.name]));
-        const matches = items.every(item => localMap.get(item.id) === item.name);
+        const localMap = new Map(initialVendingItems.map(item => [item.id, item]));
+        const matches = items.every(item => {
+          const localItem = localMap.get(item.id);
+          return localItem && item.name === localItem.name && item.nutritionalInfo;
+        });
         if (matches) {
           needsReseed = false;
         }

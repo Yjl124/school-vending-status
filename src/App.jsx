@@ -7,6 +7,31 @@ import { AdminGate } from './components/AdminGate';
 import { getApiUrl } from './geminiService';
 import { StatusPage } from './components/StatusPage';
 
+const productPhotos = {
+  "고래밥": "https://images.unsplash.com/photo-1621932953986-15fcfec8f908?auto=format&fit=crop&w=400&q=80",
+  "치킨팝": "https://images.unsplash.com/photo-1599490659213-e2b9527ec087?auto=format&fit=crop&w=400&q=80",
+  "곤약젤리 사과": "https://images.unsplash.com/photo-1576186726580-a817e4ed0b3b?auto=format&fit=crop&w=400&q=80",
+  "곤약젤리 청포도": "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&w=400&q=80",
+  "Pocari Sweat": "https://i5.walmartimages.com/asr/31bb3a20-3343-4e8a-accc-df0c06a3782b.477c7c5ad9ceb6348bb95b281f62c040.jpeg",
+  "Powerade": "https://images.unsplash.com/photo-1625772290748-39093c68f80c?auto=format&fit=crop&w=400&q=80",
+  "Gatorade Blue": "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?auto=format&fit=crop&w=400&q=80",
+  "비타 500": "https://i5.walmartimages.com/asr/a40a5a3a-14d9-4d6d-96e0-b6fa065de2d7_1.d69e09d1ee44249a5b3a4a03c34e0a4f.jpeg",
+  "2%": "https://i5.walmartimages.com/asr/9d31131c-3430-4e31-90a4-d1fbe6ba7b70.825d1945efd37de75653b6ab50cf5df6.jpeg",
+  "델몬트 망고": "https://i5.walmartimages.com/asr/2bf5fb71-ebae-4d1e-92fb-6d7c7be93033.456860d5bfa780d6f455325ff4beea51.jpeg",
+  "구운감자": "https://i5.walmartimages.com/asr/f9919f85-f5be-443b-9e48-32eeefae0062.247c47d79b0c793fffa16c56784d5df6.jpeg",
+  "칸쵸": "https://i5.walmartimages.com/asr/fcfca5fa-bf9b-449e-b8d4-f65de1848bb2.c0fa4a83eeec1e89ce4a0352ef45b3a4.jpeg",
+  "스퀴즈 사과 에이드": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=400&q=80",
+  "스퀴즈 포도 에이드": "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=400&q=80",
+  "토레타": "https://i5.walmartimages.com/asr/97217983-5c8e-49b0-bc37-a16df733575c.9a6cf716d97c55cb6d3e86c06df9a5de.jpeg",
+  "닥터유 에너지바": "https://i5.walmartimages.com/asr/a4d95b5a-ec04-4b5a-93be-efca198a287c.f04a83eeec1e89ce4a0352ef45b3a4.jpeg",
+  "닥터유 단백질바": "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?auto=format&fit=crop&w=400&q=80",
+  "오! 그래놀라 단백질바": "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=400&q=80",
+  "오! 그래놀라 철분바": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80",
+  "콘푸라이트바": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=400&q=80",
+  "화이트하임": "https://i5.walmartimages.com/asr/52c6ea9b-1f5e-4bb5-a836-813c01bf042a_1.439c0eb1de44249a5b3a4a03c34e0a4f.jpeg",
+  "웨하스": "https://images.unsplash.com/photo-1558961309-dbdf006a1a0b?auto=format&fit=crop&w=400&q=80"
+};
+
 function App() {
   const [items, setItems] = useState([]);
   const [metadata, setMetadata] = useState({ lastUpdated: null });
@@ -20,6 +45,8 @@ function App() {
   const [isStatus, setIsStatus] = useState(
     window.location.hash === '#status' || window.location.hash === '#/status'
   );
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [modalViewMode, setModalViewMode] = useState('photo'); // 'photo' or 'vector'
 
   // Check Backend and Gemini connectivity from status endpoint
   useEffect(() => {
@@ -282,11 +309,12 @@ function App() {
                     {rowItems.map((item) => (
                       <div
                         key={item.id}
+                        onClick={() => item.name !== "Empty Slot" && setSelectedItem(item)}
                         className={`relative bg-slate-900/60 backdrop-blur-sm rounded-[20px] p-4 border transition-all duration-300 flex flex-col justify-between min-h-[230px] ${
-                          item.inStock 
-                            ? 'border-slate-800 shadow-lg hover:border-slate-700 hover:scale-[1.03] hover:shadow-xl z-20' 
-                            : 'border-slate-900 opacity-60'
-                        }`}
+                          item.name === "Empty Slot" ? '' : 'cursor-pointer hover:border-slate-700 hover:scale-[1.03] hover:shadow-xl z-20 shadow-lg'
+                        } ${
+                          !item.inStock && 'opacity-60'
+                        } border-slate-800`}
                       >
                         {/* Slot Tag */}
                         <div className="flex justify-between items-center">
@@ -339,6 +367,175 @@ function App() {
           </div>
         )}
       </div>
+
+      {/* Item Details Bottom Sheet Modal */}
+      {selectedItem && (
+        <div 
+          className="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center z-50 p-4 transition-all duration-300"
+          onClick={() => setSelectedItem(null)}
+        >
+          <div 
+            className="bg-[#181d24] border border-slate-800 rounded-[32px] w-full max-w-2xl overflow-hidden shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Top Brand Color Banner */}
+            <div 
+              className="h-3 w-full" 
+              style={{ backgroundColor: selectedItem.brandColor }}
+            ></div>
+
+            {/* Close Button */}
+            <button 
+              onClick={() => setSelectedItem(null)}
+              className="absolute top-6 right-6 text-slate-400 hover:text-white bg-slate-900/60 p-2 rounded-full border border-slate-800/80 transition-colors cursor-pointer z-30"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Content Layout */}
+            <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8">
+              
+              {/* Left Side: Photo/Vector Showcase */}
+              <div className="flex-1 flex flex-col items-center gap-4">
+                <div 
+                  className="w-full aspect-square rounded-2xl flex items-center justify-center relative border border-slate-800/80 shadow-inner overflow-hidden p-6 bg-slate-950"
+                >
+                  {modalViewMode === 'photo' ? (
+                    <img 
+                      src={productPhotos[selectedItem.name] || "https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=400&q=80"} 
+                      alt={selectedItem.name} 
+                      className="w-full h-full object-cover rounded-xl shadow-md"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        setModalViewMode('vector'); // Fallback to vector on error
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center relative">
+                      <div className="w-40 h-40 transform hover:scale-105 transition-transform duration-300">
+                        <VendingItemVector 
+                          type={selectedItem.type} 
+                          brandColor={selectedItem.brandColor} 
+                          accentColor={selectedItem.accentColor} 
+                          name={selectedItem.name}
+                        />
+                      </div>
+                      <div 
+                        className="w-28 h-4 rounded-full filter blur-md opacity-30 mt-2"
+                        style={{ backgroundColor: selectedItem.brandColor }}
+                      ></div>
+                    </div>
+                  )}
+
+                  {/* Price Tag Badge */}
+                  <span className="absolute top-4 left-4 px-3 py-1 bg-slate-900/90 text-white font-extrabold text-xs rounded-lg border border-slate-800 shadow-md">
+                    ₩{selectedItem.price.toLocaleString()}
+                  </span>
+
+                  {/* Slot position Tag */}
+                  <span className="absolute top-4 right-4 px-3 py-1 bg-toss-blue/20 text-toss-blue font-black text-xs rounded-lg border border-toss-blue/30 uppercase tracking-wide">
+                    SLOT {selectedItem.id}
+                  </span>
+
+                  {/* View Mode Toggle Buttons */}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex bg-slate-900/90 rounded-xl p-1 border border-slate-800 shadow-lg z-25">
+                    <button
+                      onClick={() => setModalViewMode('photo')}
+                      className={`px-3 py-1 text-[10px] font-bold rounded-lg transition-all cursor-pointer ${
+                        modalViewMode === 'photo' ? 'bg-toss-blue text-white shadow' : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      실물 사진 (Photo)
+                    </button>
+                    <button
+                      onClick={() => setModalViewMode('vector')}
+                      className={`px-3 py-1 text-[10px] font-bold rounded-lg transition-all cursor-pointer ${
+                        modalViewMode === 'vector' ? 'bg-toss-blue text-white shadow' : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      벡터 (Vector)
+                    </button>
+                  </div>
+                </div>
+
+                {/* Real-time Vending Status Badge */}
+                <div className={`w-full py-2.5 px-4 rounded-xl border text-center flex items-center justify-center gap-2 font-bold text-xs ${
+                  selectedItem.inStock 
+                    ? 'bg-emerald-950/30 border-emerald-900/40 text-emerald-400' 
+                    : 'bg-red-950/30 border-red-900/40 text-red-400'
+                }`}>
+                  <span className="relative flex h-2 w-2">
+                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                      selectedItem.inStock ? 'bg-emerald-400' : 'bg-red-400'
+                    }`}></span>
+                    <span className={`relative inline-flex rounded-full h-2 w-2 ${
+                      selectedItem.inStock ? 'bg-emerald-500' : 'bg-red-500'
+                    }`}></span>
+                  </span>
+                  <span>
+                    자판기 상태: {selectedItem.inStock ? "판매 중 (In Stock)" : "품절 (Sold Out)"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Right Side: Details and Nutrition Profile */}
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[10px] uppercase font-extrabold text-slate-500 tracking-wider">
+                    {selectedItem.category} Profile
+                  </span>
+                  <h3 className="text-2xl font-black text-white mt-0.5 mb-4">
+                    {selectedItem.name}
+                  </h3>
+
+                  {/* Nutrition Panel */}
+                  <div className="bg-slate-900/75 rounded-2xl p-4 border border-slate-800/80">
+                    <h4 className="text-[10px] font-bold text-slate-400 mb-3.5 pb-2 border-b border-slate-800/80 uppercase tracking-wider flex justify-between">
+                      <span>제품 영양 성분 정보 (Nutrition Facts)</span>
+                    </h4>
+
+                    {selectedItem.nutritionalInfo ? (
+                      <div className="space-y-3">
+                        {[
+                          { label: "열량 (Calories)", value: `${selectedItem.nutritionalInfo.calories} kcal`, pct: (selectedItem.nutritionalInfo.calories / 2000) * 100, color: "bg-amber-500" },
+                          { label: "나트륨 (Sodium)", value: `${selectedItem.nutritionalInfo.sodium} mg`, pct: (selectedItem.nutritionalInfo.sodium / 2000) * 100, color: "bg-blue-500" },
+                          { label: "탄수화물 (Carbs)", value: `${selectedItem.nutritionalInfo.carbs} g`, pct: (selectedItem.nutritionalInfo.carbs / 324) * 100, color: "bg-emerald-500" },
+                          { label: "당류 (Sugars)", value: `${selectedItem.nutritionalInfo.sugars} g`, pct: (selectedItem.nutritionalInfo.sugars / 100) * 100, color: "bg-pink-500" },
+                          { label: "지방 (Fat)", value: `${selectedItem.nutritionalInfo.fat} g`, pct: (selectedItem.nutritionalInfo.fat / 54) * 100, color: "bg-orange-500" },
+                          { label: "단백질 (Protein)", value: `${selectedItem.nutritionalInfo.protein} g`, pct: (selectedItem.nutritionalInfo.protein / 55) * 100, color: "bg-toss-blue" }
+                        ].map((nutr, index) => (
+                          <div key={index} className="flex flex-col gap-1">
+                            <div className="flex justify-between text-[11px] font-semibold">
+                              <span className="text-slate-400">{nutr.label}</span>
+                              <span className="text-white font-bold">{nutr.value}</span>
+                            </div>
+                            <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+                              <div 
+                                className={`h-full rounded-full transition-all duration-500 ${nutr.color}`}
+                                style={{ width: `${Math.min(100, Math.max(2, nutr.pct))}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-slate-500 italic">영양 정보 정보 없음</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-4 text-[9px] text-slate-500 font-semibold flex justify-between border-t border-slate-800/60 pt-3">
+                  <span>* 2,000kcal 영양성분 기준치 비율 (%)</span>
+                  <span>Real-time IoT Scanner</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="w-full max-w-5xl mx-auto px-4 py-8 mt-12 border-t border-toss-border/40 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold text-toss-text-tertiary">
