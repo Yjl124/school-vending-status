@@ -211,7 +211,20 @@ export const initialVendingItems = [
     brandColor: "#f7941d",
     accentColor: "#ffffff",
     inStock: true,
-    nutritionalInfo: { calories: 50, sodium: 10, carbs: 12, sugars: 11, fat: 0, protein: 0 }
+    nutritionalInfo: { 
+      calories: 80, 
+      sodium: 75, 
+      carbs: 20, 
+      sugars: 16, 
+      fat: 0, 
+      protein: 0,
+      transFat: 0,
+      saturatedFat: 0,
+      cholesterol: 0,
+      vitaminC: 1200,
+      zinc: 3,
+      vitaminB2: 2.88
+    }
   },
   {
     id: "43",
@@ -222,7 +235,20 @@ export const initialVendingItems = [
     brandColor: "#f7941d",
     accentColor: "#ffffff",
     inStock: true,
-    nutritionalInfo: { calories: 50, sodium: 10, carbs: 12, sugars: 11, fat: 0, protein: 0 }
+    nutritionalInfo: { 
+      calories: 80, 
+      sodium: 75, 
+      carbs: 20, 
+      sugars: 16, 
+      fat: 0, 
+      protein: 0,
+      transFat: 0,
+      saturatedFat: 0,
+      cholesterol: 0,
+      vitaminC: 1200,
+      zinc: 3,
+      vitaminB2: 2.88
+    }
   },
   {
     id: "44",

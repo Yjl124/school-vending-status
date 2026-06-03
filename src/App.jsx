@@ -444,28 +444,53 @@ function App() {
                     </h4>
 
                     {selectedItem.nutritionalInfo ? (
-                      <div className="space-y-3">
-                        {[
-                          { label: "열량 (Calories)", value: `${selectedItem.nutritionalInfo.calories} kcal`, pct: (selectedItem.nutritionalInfo.calories / 2000) * 100, color: "bg-amber-500" },
-                          { label: "나트륨 (Sodium)", value: `${selectedItem.nutritionalInfo.sodium} mg`, pct: (selectedItem.nutritionalInfo.sodium / 2000) * 100, color: "bg-blue-500" },
-                          { label: "탄수화물 (Carbs)", value: `${selectedItem.nutritionalInfo.carbs} g`, pct: (selectedItem.nutritionalInfo.carbs / 324) * 100, color: "bg-emerald-500" },
-                          { label: "당류 (Sugars)", value: `${selectedItem.nutritionalInfo.sugars} g`, pct: (selectedItem.nutritionalInfo.sugars / 100) * 100, color: "bg-pink-500" },
-                          { label: "지방 (Fat)", value: `${selectedItem.nutritionalInfo.fat} g`, pct: (selectedItem.nutritionalInfo.fat / 54) * 100, color: "bg-orange-500" },
-                          { label: "단백질 (Protein)", value: `${selectedItem.nutritionalInfo.protein} g`, pct: (selectedItem.nutritionalInfo.protein / 55) * 100, color: "bg-toss-blue" }
-                        ].map((nutr, index) => (
-                          <div key={index} className="flex flex-col gap-1">
-                            <div className="flex justify-between text-[11px] font-semibold">
-                              <span className="text-slate-400">{nutr.label}</span>
-                              <span className="text-white font-bold">{nutr.value}</span>
+                      <div className="space-y-2.5 max-h-[280px] overflow-y-auto pr-1">
+                        {(() => {
+                          const nutrItems = [
+                            { label: "열량 (Calories)", value: `${selectedItem.nutritionalInfo.calories} kcal`, pct: (selectedItem.nutritionalInfo.calories / 2000) * 100, color: "bg-amber-500" },
+                            { label: "나트륨 (Sodium)", value: `${selectedItem.nutritionalInfo.sodium} mg`, pct: (selectedItem.nutritionalInfo.sodium / 2000) * 100, color: "bg-blue-500" },
+                            { label: "탄수화물 (Carbs)", value: `${selectedItem.nutritionalInfo.carbs} g`, pct: (selectedItem.nutritionalInfo.carbs / 324) * 100, color: "bg-emerald-500" },
+                            { label: "당류 (Sugars)", value: `${selectedItem.nutritionalInfo.sugars} g`, pct: (selectedItem.nutritionalInfo.sugars / 100) * 100, color: "bg-pink-500" },
+                            { label: "지방 (Fat)", value: `${selectedItem.nutritionalInfo.fat} g`, pct: (selectedItem.nutritionalInfo.fat / 54) * 100, color: "bg-orange-500" },
+                          ];
+
+                          if (selectedItem.nutritionalInfo.transFat !== undefined) {
+                            nutrItems.push({ label: "트랜스지방 (Trans Fat)", value: `${selectedItem.nutritionalInfo.transFat} g`, pct: 0, color: "bg-orange-600" });
+                          }
+                          if (selectedItem.nutritionalInfo.saturatedFat !== undefined) {
+                            nutrItems.push({ label: "포화지방 (Saturated Fat)", value: `${selectedItem.nutritionalInfo.saturatedFat} g`, pct: (selectedItem.nutritionalInfo.saturatedFat / 15) * 100, color: "bg-orange-700" });
+                          }
+                          if (selectedItem.nutritionalInfo.cholesterol !== undefined) {
+                            nutrItems.push({ label: "콜레스테롤 (Cholesterol)", value: `${selectedItem.nutritionalInfo.cholesterol} mg`, pct: (selectedItem.nutritionalInfo.cholesterol / 300) * 100, color: "bg-red-500" });
+                          }
+
+                          nutrItems.push({ label: "단백질 (Protein)", value: `${selectedItem.nutritionalInfo.protein} g`, pct: (selectedItem.nutritionalInfo.protein / 55) * 100, color: "bg-toss-blue" });
+
+                          if (selectedItem.nutritionalInfo.vitaminC !== undefined) {
+                            nutrItems.push({ label: "비타민C (Vitamin C)", value: `${selectedItem.nutritionalInfo.vitaminC} mg`, pct: (selectedItem.nutritionalInfo.vitaminC / 100) * 100, color: "bg-yellow-400" });
+                          }
+                          if (selectedItem.nutritionalInfo.zinc !== undefined) {
+                            nutrItems.push({ label: "아연 (Zinc)", value: `${selectedItem.nutritionalInfo.zinc} mg`, pct: (selectedItem.nutritionalInfo.zinc / 8.5) * 100, color: "bg-teal-400" });
+                          }
+                          if (selectedItem.nutritionalInfo.vitaminB2 !== undefined) {
+                            nutrItems.push({ label: "비타민 B2 (Vitamin B2)", value: `${selectedItem.nutritionalInfo.vitaminB2} mg`, pct: (selectedItem.nutritionalInfo.vitaminB2 / 1.4) * 100, color: "bg-indigo-400" });
+                          }
+
+                          return nutrItems.map((nutr, index) => (
+                            <div key={index} className="flex flex-col gap-1">
+                              <div className="flex justify-between text-[11px] font-semibold">
+                                <span className="text-slate-400">{nutr.label}</span>
+                                <span className="text-white font-bold">{nutr.value}</span>
+                              </div>
+                              <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+                                <div 
+                                  className={`h-full rounded-full transition-all duration-500 ${nutr.color}`}
+                                  style={{ width: `${Math.min(100, Math.max(2, nutr.pct))}%` }}
+                                ></div>
+                              </div>
                             </div>
-                            <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
-                              <div 
-                                className={`h-full rounded-full transition-all duration-500 ${nutr.color}`}
-                                style={{ width: `${Math.min(100, Math.max(2, nutr.pct))}%` }}
-                              ></div>
-                            </div>
-                          </div>
-                        ))}
+                          ));
+                        })()}
                       </div>
                     ) : (
                       <p className="text-xs text-slate-500 italic">영양 정보 정보 없음</p>
