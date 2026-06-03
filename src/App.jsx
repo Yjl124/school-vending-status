@@ -7,7 +7,7 @@ import { AdminGate } from './components/AdminGate';
 import { getApiUrl } from './geminiService';
 import { StatusPage } from './components/StatusPage';
 
-
+// Trigger redeployment: 2026-06-04T08:17:00+09:00
 
 function App() {
   const [items, setItems] = useState([]);
