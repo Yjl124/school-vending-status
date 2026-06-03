@@ -46,14 +46,14 @@ export const initialVendingItems = [
   },
   {
     id: "64",
-    name: "Empty Slot",
+    name: "치킨팝 치즈맛",
     price: 1200,
     category: "Snack",
     type: "bag",
-    brandColor: "#e5e8eb",
-    accentColor: "#b0b8c1",
-    inStock: false,
-    nutritionalInfo: { calories: 0, sodium: 0, carbs: 0, sugars: 0, fat: 0, protein: 0 }
+    brandColor: "#e8a810",
+    accentColor: "#e74c3c",
+    inStock: true,
+    nutritionalInfo: { calories: 411, sodium: 470, carbs: 51, sugars: 14, fat: 20, protein: 6 }
   },
   {
     id: "65",
