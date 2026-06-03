@@ -47,15 +47,18 @@ app.post('/api/analyze', async (req, res) => {
       - Row 2 (Fifth Shelf): 20, 21, 22, 23, 24, 25, 26, 27 (8 slots, left-to-right)
       - Row 1 (Bottom Shelf): 11, 13, 15, 17 (4 slots, left-to-right)
 
-      For each of the 44 slot IDs, determine if the item in that slot is "in stock" (at least one item is present in the slot) or "sold out" (the slot is empty or a sold out label is present).
-      - If items are visible: set to true.
+      For each of the 44 slot IDs, determine if the item in that slot is "in stock" (at least one item is present) or "sold out" (empty).
+      CRITICAL INSTRUCTIONS for accuracy:
+      - Look closely at the metal coils. If you only see an empty metal coil and the back of the machine, the slot is EMPTY (false).
+      - Beware of glare, reflections on the glass, or shadows. These are NOT items.
       - If the slot is empty or clearly sold out: set to false.
+      - If a physical item is visible inside the coil: set to true.
 
-      Return a strict, valid JSON object mapping every single slot ID (from the list of 44 IDs above) to its stock status (boolean).
+      Return a strict, valid JSON object mapping every single slot ID (from the list of 44 IDs above) to its stock status (boolean true/false).
       Example Output:
       {
-        "60": true,
-        "61": true,
+        "60": false,
+        "61": false,
         "62": true,
         "63": true,
         "64": false,
@@ -72,16 +75,16 @@ app.post('/api/analyze', async (req, res) => {
         "57": true,
         "40": true,
         "41": true,
-        "42": true,
-        "43": true,
+        "42": false,
+        "43": false,
         "44": true,
-        "45": true,
-        "46": true,
+        "45": false,
+        "46": false,
         "47": true,
         "30": true,
-        "31": true,
-        "32": true,
-        "33": true,
+        "31": false,
+        "32": false,
+        "33": false,
         "34": true,
         "35": true,
         "36": true,
@@ -94,13 +97,13 @@ app.post('/api/analyze', async (req, res) => {
         "25": true,
         "26": true,
         "27": true,
-        "11": true,
+        "11": false,
         "13": true,
-        "15": false,
+        "15": true,
         "17": true
       }
 
-      Do not include any explanation, intro text, markdown block wraps, or formatting other than the valid JSON object itself. Respond ONLY with raw JSON.
+      Respond ONLY with the raw JSON object. Do not include markdown blocks or any other text.
     `;
 
     // Attempt to generate content using fallback models
@@ -148,6 +151,23 @@ app.post('/api/analyze', async (req, res) => {
 
     const parsedData = JSON.parse(jsonText);
     
+    // Flatten the parsed data just in case it's nested
+    const flattenObject = (obj) => {
+      let res = {};
+      for (const i in obj) {
+        if (typeof obj[i] === 'object' && !Array.isArray(obj[i]) && obj[i] !== null) {
+          const temp = flattenObject(obj[i]);
+          for (const j in temp) {
+            res[j] = temp[j];
+          }
+        } else {
+          res[i] = obj[i];
+        }
+      }
+      return res;
+    };
+    const flatData = flattenObject(parsedData);
+    
     // Validate slot IDs
     const requiredKeys = [
       "60", "61", "62", "63", "64", "65", "66", "67",
@@ -160,8 +180,13 @@ app.post('/api/analyze', async (req, res) => {
     
     const validatedData = {};
     requiredKeys.forEach(key => {
-      if (key in parsedData) {
-        validatedData[key] = Boolean(parsedData[key]);
+      if (key in flatData) {
+        let val = flatData[key];
+        if (typeof val === 'string') {
+          validatedData[key] = val.toLowerCase() === 'true';
+        } else {
+          validatedData[key] = Boolean(val);
+        }
       }
     });
 
