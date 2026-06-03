@@ -178,3 +178,5 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Secure Gemini proxy server running on port ${PORT}`);
 });
+
+// Trigger redeployment: 2026-06-04T08:20:10+09:00
