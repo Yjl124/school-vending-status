@@ -104,14 +104,19 @@ app.post('/api/analyze', async (req, res) => {
     `;
 
     // Attempt to generate content using fallback models
-    const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash"];
+    const modelsToTry = ["gemini-1.5-pro", "gemini-1.5-flash"];
     let result = null;
     let lastError = null;
 
     for (const modelName of modelsToTry) {
       try {
         console.log(`Attempting analysis with model: ${modelName}`);
-        const model = genAI.getGenerativeModel({ model: modelName });
+        const model = genAI.getGenerativeModel({ 
+          model: modelName,
+          generationConfig: {
+            responseMimeType: "application/json"
+          }
+        });
         result = await model.generateContent([
           prompt,
           {
@@ -157,8 +162,6 @@ app.post('/api/analyze', async (req, res) => {
     requiredKeys.forEach(key => {
       if (key in parsedData) {
         validatedData[key] = Boolean(parsedData[key]);
-      } else {
-        validatedData[key] = true;
       }
     });
 
