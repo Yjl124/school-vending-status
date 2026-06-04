@@ -1,523 +1,242 @@
+export const shelves = [
+  { id: 6, name: "SNACKS & CHIPS" },
+  { id: 5, name: "JELLIES & DRINKS" },
+  { id: 4, name: "DRINKS & SODAS" },
+  { id: 3, name: "CANS & JUICES" },
+  { id: 2, name: "ENERGY & PROTEIN BARS" },
+  { id: 1, name: "LARGE BOXES & WAFERS" },
+];
+
 export const initialVendingItems = [
-  // Row 6 (Top Row: snacks)
+  // ── SHELF 1: Large Boxes & Wafers (slots 11, 13, 15, 17) ──
   {
-    id: "60",
-    name: "고래밥",
-    price: 800,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#d57934",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 135, sodium: 230, carbs: 24, sugars: 3, fat: 4, protein: 2 }
+    id: "11", name: "화이트하임", price: 1300, category: "Snack", type: "box", shelf: 1,
+    brandColor: "#3A5FA8", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "53g", calories: 280, carbs: 36, sugar: 14, protein: 4, fat: 13, sodium: 95 }
   },
   {
-    id: "61",
-    name: "고래밥",
-    price: 800,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#d57934",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 135, sodium: 230, carbs: 24, sugars: 3, fat: 4, protein: 2 }
+    id: "13", name: "화이트하임", price: 1300, category: "Snack", type: "box", shelf: 1,
+    brandColor: "#3A5FA8", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "53g", calories: 280, carbs: 36, sugar: 14, protein: 4, fat: 13, sodium: 95 }
   },
   {
-    id: "62",
-    name: "고래밥",
-    price: 800,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#d57934",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 135, sodium: 230, carbs: 24, sugars: 3, fat: 4, protein: 2 }
+    id: "15", name: "Empty Slot", price: 900, category: "Snack", type: "bag", shelf: 1,
+    brandColor: "#374151", accentColor: "#6B7280", inStock: false,
+    nutrition: { servingSize: "—", calories: 0, carbs: 0, sugar: 0, protein: 0, fat: 0, sodium: 0 }
   },
   {
-    id: "63",
-    name: "고래밥",
-    price: 800,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#d57934",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 135, sodium: 230, carbs: 24, sugars: 3, fat: 4, protein: 2 }
-  },
-  {
-    id: "64",
-    name: "치킨팝 치즈맛",
-    price: 1200,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#e8a810",
-    accentColor: "#e74c3c",
-    inStock: true,
-    nutritionalInfo: { calories: 411, sodium: 470, carbs: 51, sugars: 14, fat: 20, protein: 6 }
-  },
-  {
-    id: "65",
-    name: "치킨팝",
-    price: 1200,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#e55b1f",
-    accentColor: "#0a4a83",
-    inStock: true,
-    nutritionalInfo: { calories: 310, sodium: 420, carbs: 42, sugars: 18, fat: 14, protein: 4 }
-  },
-  {
-    id: "66",
-    name: "치킨팝",
-    price: 1200,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#e55b1f",
-    accentColor: "#0a4a83",
-    inStock: true,
-    nutritionalInfo: { calories: 310, sodium: 420, carbs: 42, sugars: 18, fat: 14, protein: 4 }
-  },
-  {
-    id: "67",
-    name: "치킨팝",
-    price: 1200,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#e55b1f",
-    accentColor: "#0a4a83",
-    inStock: true,
-    nutritionalInfo: { calories: 310, sodium: 420, carbs: 42, sugars: 18, fat: 14, protein: 4 }
+    id: "17", name: "웨하스", price: 900, category: "Snack", type: "bag", shelf: 1,
+    brandColor: "#D4569A", accentColor: "#FFE4F0", inStock: true,
+    nutrition: { servingSize: "60g", calories: 300, carbs: 42, sugar: 18, protein: 3, fat: 13, sodium: 110 }
   },
 
-  // Row 5 (Jellies and Cans)
+  // ── SHELF 2: Energy & Protein Bars (slots 20–27) ──
   {
-    id: "50",
-    name: "곤약젤리 사과",
-    price: 1000,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#cc1827",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 11, sodium: 45, carbs: 8, sugars: 0, fat: 0, protein: 0 }
+    id: "20", name: "닥터유 에너지바", price: 1200, category: "Snack", type: "bar", shelf: 2,
+    brandColor: "#E07822", accentColor: "#1A3A6E", inStock: true,
+    nutrition: { servingSize: "40g", calories: 170, carbs: 24, sugar: 10, protein: 6, fat: 6, sodium: 90 }
   },
   {
-    id: "51",
-    name: "곤약젤리 사과",
-    price: 1000,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#cc1827",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 11, sodium: 45, carbs: 8, sugars: 0, fat: 0, protein: 0 }
+    id: "21", name: "닥터유 에너지바", price: 1200, category: "Snack", type: "bar", shelf: 2,
+    brandColor: "#E07822", accentColor: "#1A3A6E", inStock: true,
+    nutrition: { servingSize: "40g", calories: 170, carbs: 24, sugar: 10, protein: 6, fat: 6, sodium: 90 }
   },
   {
-    id: "52",
-    name: "곤약젤리 청포도",
-    price: 1000,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#6bba2d",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 11, sodium: 45, carbs: 8, sugars: 0, fat: 0, protein: 0 }
+    id: "22", name: "닥터유 단백질바", price: 1200, category: "Snack", type: "bar", shelf: 2,
+    brandColor: "#1A2E5A", accentColor: "#E07822", inStock: true,
+    nutrition: { servingSize: "40g", calories: 160, carbs: 18, sugar: 7, protein: 12, fat: 5, sodium: 120 }
   },
   {
-    id: "53",
-    name: "곤약젤리 청포도",
-    price: 1000,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#6bba2d",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 11, sodium: 45, carbs: 8, sugars: 0, fat: 0, protein: 0 }
+    id: "23", name: "닥터유 단백질바", price: 1200, category: "Snack", type: "bar", shelf: 2,
+    brandColor: "#1A2E5A", accentColor: "#E07822", inStock: true,
+    nutrition: { servingSize: "40g", calories: 160, carbs: 18, sugar: 7, protein: 12, fat: 5, sodium: 120 }
   },
   {
-    id: "54",
-    name: "Pocari Sweat",
-    price: 1200,
-    category: "Drink",
-    type: "can",
-    brandColor: "#0054a6",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 125, sodium: 220, carbs: 30, sugars: 30, fat: 0, protein: 0 }
+    id: "24", name: "오! 그래놀라바", price: 1200, category: "Snack", type: "bar", shelf: 2,
+    brandColor: "#D4621A", accentColor: "#3A6EA8", inStock: true,
+    nutrition: { servingSize: "35g", calories: 155, carbs: 22, sugar: 9, protein: 3, fat: 6, sodium: 70 }
   },
   {
-    id: "55",
-    name: "Pocari Sweat",
-    price: 1200,
-    category: "Drink",
-    type: "can",
-    brandColor: "#0054a6",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 125, sodium: 220, carbs: 30, sugars: 30, fat: 0, protein: 0 }
+    id: "25", name: "오! 그래놀라바", price: 1200, category: "Snack", type: "bar", shelf: 2,
+    brandColor: "#D4621A", accentColor: "#3A6EA8", inStock: true,
+    nutrition: { servingSize: "35g", calories: 155, carbs: 22, sugar: 9, protein: 3, fat: 6, sodium: 70 }
   },
   {
-    id: "56",
-    name: "Powerade",
-    price: 1000,
-    category: "Drink",
-    type: "can",
-    brandColor: "#002c5c",
-    accentColor: "#00a2e8",
-    inStock: true,
-    nutritionalInfo: { calories: 60, sodium: 180, carbs: 15, sugars: 15, fat: 0, protein: 0 }
+    id: "26", name: "콘푸라이트바", price: 1100, category: "Snack", type: "bar", shelf: 2,
+    brandColor: "#F4C430", accentColor: "#1A3A6E", inStock: true,
+    nutrition: { servingSize: "35g", calories: 145, carbs: 26, sugar: 11, protein: 2, fat: 4, sodium: 85 }
   },
   {
-    id: "57",
-    name: "Powerade",
-    price: 1000,
-    category: "Drink",
-    type: "can",
-    brandColor: "#002c5c",
-    accentColor: "#00a2e8",
-    inStock: true,
-    nutritionalInfo: { calories: 60, sodium: 180, carbs: 15, sugars: 15, fat: 0, protein: 0 }
+    id: "27", name: "콘푸라이트바", price: 1100, category: "Snack", type: "bar", shelf: 2,
+    brandColor: "#F4C430", accentColor: "#1A3A6E", inStock: true,
+    nutrition: { servingSize: "35g", calories: 145, carbs: 26, sugar: 11, protein: 2, fat: 4, sodium: 85 }
   },
 
-  // Row 4 (Drinks)
+  // ── SHELF 3: Cans & Juices (slots 30–37) ──
   {
-    id: "40",
-    name: "Gatorade Blue",
-    price: 1000,
-    category: "Drink",
-    type: "can",
-    brandColor: "#00a2e8",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 60, sodium: 110, carbs: 15, sugars: 15, fat: 0, protein: 0 }
+    id: "30", name: "구운감자", price: 1000, category: "Snack", type: "bag", shelf: 3,
+    brandColor: "#C8A820", accentColor: "#CC2200", inStock: true,
+    nutrition: { servingSize: "55g", calories: 255, carbs: 36, sugar: 2, protein: 4, fat: 10, sodium: 420 }
   },
   {
-    id: "41",
-    name: "Gatorade Blue",
-    price: 1000,
-    category: "Drink",
-    type: "can",
-    brandColor: "#00a2e8",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 60, sodium: 110, carbs: 15, sugars: 15, fat: 0, protein: 0 }
+    id: "31", name: "칸초", price: 1300, category: "Snack", type: "bag", shelf: 3,
+    brandColor: "#4A2C10", accentColor: "#D4890A", inStock: true,
+    nutrition: { servingSize: "42g", calories: 215, carbs: 28, sugar: 12, protein: 3, fat: 10, sodium: 100 }
   },
   {
-    id: "42",
-    name: "비타 500",
-    price: 1000,
-    category: "Drink",
-    type: "can",
-    brandColor: "#f7941d",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { 
-      calories: 80, 
-      sodium: 75, 
-      carbs: 20, 
-      sugars: 16, 
-      fat: 0, 
-      protein: 0,
-      transFat: 0,
-      saturatedFat: 0,
-      cholesterol: 0,
-      vitaminC: 1200,
-      zinc: 3,
-      vitaminB2: 2.88
-    }
+    id: "32", name: "스퀴즈 사과", price: 800, category: "Drink", type: "can", shelf: 3,
+    brandColor: "#2ECC71", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "240ml", calories: 110, carbs: 28, sugar: 26, protein: 0, fat: 0, sodium: 15 }
   },
   {
-    id: "43",
-    name: "비타 500",
-    price: 1000,
-    category: "Drink",
-    type: "can",
-    brandColor: "#f7941d",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { 
-      calories: 80, 
-      sodium: 75, 
-      carbs: 20, 
-      sugars: 16, 
-      fat: 0, 
-      protein: 0,
-      transFat: 0,
-      saturatedFat: 0,
-      cholesterol: 0,
-      vitaminC: 1200,
-      zinc: 3,
-      vitaminB2: 2.88
-    }
+    id: "33", name: "스퀴즈 사과", price: 800, category: "Drink", type: "can", shelf: 3,
+    brandColor: "#2ECC71", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "240ml", calories: 110, carbs: 28, sugar: 26, protein: 0, fat: 0, sodium: 15 }
   },
   {
-    id: "44",
-    name: "2%",
-    price: 1000,
-    category: "Drink",
-    type: "can",
-    brandColor: "#f5cbd5",
-    accentColor: "#e55a73",
-    inStock: true,
-    nutritionalInfo: { calories: 70, sodium: 25, carbs: 17, sugars: 16, fat: 0, protein: 0 }
+    id: "34", name: "스퀴즈 포도", price: 800, category: "Drink", type: "can", shelf: 3,
+    brandColor: "#8E44AD", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "240ml", calories: 115, carbs: 29, sugar: 27, protein: 0, fat: 0, sodium: 15 }
   },
   {
-    id: "45",
-    name: "2%",
-    price: 1000,
-    category: "Drink",
-    type: "can",
-    brandColor: "#f5cbd5",
-    accentColor: "#e55a73",
-    inStock: true,
-    nutritionalInfo: { calories: 70, sodium: 25, carbs: 17, sugars: 16, fat: 0, protein: 0 }
+    id: "35", name: "스퀴즈 포도", price: 800, category: "Drink", type: "can", shelf: 3,
+    brandColor: "#8E44AD", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "240ml", calories: 115, carbs: 29, sugar: 27, protein: 0, fat: 0, sodium: 15 }
   },
   {
-    id: "46",
-    name: "델몬트 망고",
-    price: 800,
-    category: "Drink",
-    type: "can",
-    brandColor: "#e5b61a",
-    accentColor: "#10542c",
-    inStock: true,
-    nutritionalInfo: { calories: 120, sodium: 15, carbs: 29, sugars: 27, fat: 0, protein: 0 }
+    id: "36", name: "토레타", price: 1000, category: "Drink", type: "can", shelf: 3,
+    brandColor: "#1ABC9C", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "350ml", calories: 70, carbs: 18, sugar: 17, protein: 0, fat: 0, sodium: 55 }
   },
   {
-    id: "47",
-    name: "델몬트 망고",
-    price: 800,
-    category: "Drink",
-    type: "can",
-    brandColor: "#e5b61a",
-    accentColor: "#10542c",
-    inStock: true,
-    nutritionalInfo: { calories: 120, sodium: 15, carbs: 29, sugars: 27, fat: 0, protein: 0 }
+    id: "37", name: "토레타", price: 1000, category: "Drink", type: "can", shelf: 3,
+    brandColor: "#1ABC9C", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "350ml", calories: 70, carbs: 18, sugar: 17, protein: 0, fat: 0, sodium: 55 }
   },
 
-  // Row 3 (Snacks & Cans)
+  // ── SHELF 4: Drinks & Sodas (slots 40–47) ──
   {
-    id: "30",
-    name: "구운감자",
-    price: 1000,
-    category: "Snack",
-    type: "box",
-    brandColor: "#fcd116",
-    accentColor: "#e51c23",
-    inStock: true,
-    nutritionalInfo: { calories: 130, sodium: 240, carbs: 22, sugars: 2, fat: 3.5, protein: 2 }
+    id: "40", name: "게토레이", price: 1000, category: "Drink", type: "can", shelf: 4,
+    brandColor: "#1DA0E0", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "600ml", calories: 150, carbs: 40, sugar: 34, protein: 0, fat: 0, sodium: 240 }
   },
   {
-    id: "31",
-    name: "칸쵸",
-    price: 1300,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#6b462c",
-    accentColor: "#f4bfbb",
-    inStock: true,
-    nutritionalInfo: { calories: 270, sodium: 150, carbs: 38, sugars: 19, fat: 11, protein: 4 }
+    id: "41", name: "게토레이", price: 1000, category: "Drink", type: "can", shelf: 4,
+    brandColor: "#1DA0E0", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "600ml", calories: 150, carbs: 40, sugar: 34, protein: 0, fat: 0, sodium: 240 }
   },
   {
-    id: "32",
-    name: "스퀴즈 사과 에이드",
-    price: 800,
-    category: "Drink",
-    type: "can",
-    brandColor: "#8ac43f",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 110, sodium: 35, carbs: 27, sugars: 25, fat: 0, protein: 0 }
+    id: "42", name: "비타 500", price: 1000, category: "Drink", type: "can", shelf: 4,
+    brandColor: "#E8772A", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "100ml", calories: 50, carbs: 12, sugar: 12, protein: 0, fat: 0, sodium: 5 }
   },
   {
-    id: "33",
-    name: "스퀴즈 사과 에이드",
-    price: 800,
-    category: "Drink",
-    type: "can",
-    brandColor: "#8ac43f",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 110, sodium: 35, carbs: 27, sugars: 25, fat: 0, protein: 0 }
+    id: "43", name: "비타 500", price: 1000, category: "Drink", type: "can", shelf: 4,
+    brandColor: "#E8772A", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "100ml", calories: 50, carbs: 12, sugar: 12, protein: 0, fat: 0, sodium: 5 }
   },
   {
-    id: "34",
-    name: "스퀴즈 포도 에이드",
-    price: 800,
-    category: "Drink",
-    type: "can",
-    brandColor: "#7a509c",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 110, sodium: 35, carbs: 27, sugars: 25, fat: 0, protein: 0 }
+    id: "44", name: "2%", price: 1000, category: "Drink", type: "can", shelf: 4,
+    brandColor: "#E8709A", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "500ml", calories: 100, carbs: 25, sugar: 23, protein: 0, fat: 0, sodium: 40 }
   },
   {
-    id: "35",
-    name: "스퀴즈 포도 에이드",
-    price: 800,
-    category: "Drink",
-    type: "can",
-    brandColor: "#7a509c",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 110, sodium: 35, carbs: 27, sugars: 25, fat: 0, protein: 0 }
+    id: "45", name: "2%", price: 1000, category: "Drink", type: "can", shelf: 4,
+    brandColor: "#E8709A", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "500ml", calories: 100, carbs: 25, sugar: 23, protein: 0, fat: 0, sodium: 40 }
   },
   {
-    id: "36",
-    name: "토레타",
-    price: 1000,
-    category: "Drink",
-    type: "can",
-    brandColor: "#99e2d8",
-    accentColor: "#e65860",
-    inStock: true,
-    nutritionalInfo: { calories: 80, sodium: 140, carbs: 20, sugars: 20, fat: 0, protein: 0 }
+    id: "46", name: "델몬트 망고", price: 800, category: "Drink", type: "can", shelf: 4,
+    brandColor: "#DAA520", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "240ml", calories: 130, carbs: 32, sugar: 30, protein: 0, fat: 0, sodium: 20 }
   },
   {
-    id: "37",
-    name: "토레타",
-    price: 1000,
-    category: "Drink",
-    type: "can",
-    brandColor: "#99e2d8",
-    accentColor: "#e65860",
-    inStock: true,
-    nutritionalInfo: { calories: 80, sodium: 140, carbs: 20, sugars: 20, fat: 0, protein: 0 }
+    id: "47", name: "델몬트 망고", price: 800, category: "Drink", type: "can", shelf: 4,
+    brandColor: "#DAA520", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "240ml", calories: 130, carbs: 32, sugar: 30, protein: 0, fat: 0, sodium: 20 }
   },
 
-  // Row 2 (Snack Bars)
+  // ── SHELF 5: Jellies & Drinks (slots 50–57) ──
   {
-    id: "20",
-    name: "닥터유 에너지바",
-    price: 1200,
-    category: "Snack",
-    type: "bar",
-    brandColor: "#0c4c8a",
-    accentColor: "#e55b1f",
-    inStock: true,
-    nutritionalInfo: { calories: 188, sodium: 85, carbs: 21, sugars: 15, fat: 9, protein: 6 }
+    id: "50", name: "콘닥켈리 사과", price: 1000, category: "Snack", type: "bag", shelf: 5,
+    brandColor: "#C0392B", accentColor: "#FF6B6B", inStock: true,
+    nutrition: { servingSize: "108g", calories: 80, carbs: 20, sugar: 16, protein: 0, fat: 0, sodium: 5 }
   },
   {
-    id: "21",
-    name: "닥터유 에너지바",
-    price: 1200,
-    category: "Snack",
-    type: "bar",
-    brandColor: "#0c4c8a",
-    accentColor: "#e55b1f",
-    inStock: true,
-    nutritionalInfo: { calories: 188, sodium: 85, carbs: 21, sugars: 15, fat: 9, protein: 6 }
+    id: "51", name: "콘닥켈리 사과", price: 1000, category: "Snack", type: "bag", shelf: 5,
+    brandColor: "#C0392B", accentColor: "#FF6B6B", inStock: true,
+    nutrition: { servingSize: "108g", calories: 80, carbs: 20, sugar: 16, protein: 0, fat: 0, sodium: 5 }
   },
   {
-    id: "22",
-    name: "닥터유 단백질바",
-    price: 1200,
-    category: "Snack",
-    type: "bar",
-    brandColor: "#261c16",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 249, sodium: 150, carbs: 17, sugars: 10, fat: 13, protein: 12 }
+    id: "52", name: "콘닥켈리 청포도", price: 1000, category: "Snack", type: "bag", shelf: 5,
+    brandColor: "#27AE60", accentColor: "#A8E6C0", inStock: true,
+    nutrition: { servingSize: "108g", calories: 80, carbs: 20, sugar: 16, protein: 0, fat: 0, sodium: 5 }
   },
   {
-    id: "23",
-    name: "닥터유 단백질바",
-    price: 1200,
-    category: "Snack",
-    type: "bar",
-    brandColor: "#261c16",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 249, sodium: 150, carbs: 17, sugars: 10, fat: 13, protein: 12 }
+    id: "53", name: "콘닥켈리 청포도", price: 1000, category: "Snack", type: "bag", shelf: 5,
+    brandColor: "#27AE60", accentColor: "#A8E6C0", inStock: true,
+    nutrition: { servingSize: "108g", calories: 80, carbs: 20, sugar: 16, protein: 0, fat: 0, sodium: 5 }
   },
   {
-    id: "24",
-    name: "오! 그래놀라 단백질바",
-    price: 1200,
-    category: "Snack",
-    type: "bar",
-    brandColor: "#e35925",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 190, sodium: 110, carbs: 20, sugars: 9, fat: 9, protein: 6 }
+    id: "54", name: "포카리스웨트", price: 1200, category: "Drink", type: "bottle", shelf: 5,
+    brandColor: "#0054A6", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "340ml", calories: 82, carbs: 20, sugar: 18, protein: 0, fat: 0, sodium: 120 }
   },
   {
-    id: "25",
-    name: "오! 그래놀라 철분바",
-    price: 1200,
-    category: "Snack",
-    type: "bar",
-    brandColor: "#3d59ab",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 180, sodium: 100, carbs: 22, sugars: 8, fat: 8, protein: 4 }
+    id: "55", name: "포카리스웨트", price: 1200, category: "Drink", type: "bottle", shelf: 5,
+    brandColor: "#0054A6", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "340ml", calories: 82, carbs: 20, sugar: 18, protein: 0, fat: 0, sodium: 120 }
   },
   {
-    id: "26",
-    name: "콘푸라이트바",
-    price: 1100,
-    category: "Snack",
-    type: "bar",
-    brandColor: "#1d579c",
-    accentColor: "#e5ae10",
-    inStock: true,
-    nutritionalInfo: { calories: 112, sodium: 75, carbs: 21, sugars: 9, fat: 2.5, protein: 1.2 }
+    id: "56", name: "파워에이드", price: 1000, category: "Drink", type: "bottle", shelf: 5,
+    brandColor: "#1C3FA8", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "600ml", calories: 160, carbs: 43, sugar: 38, protein: 0, fat: 0, sodium: 210 }
   },
   {
-    id: "27",
-    name: "콘푸라이트바",
-    price: 1100,
-    category: "Snack",
-    type: "bar",
-    brandColor: "#1d579c",
-    accentColor: "#e5ae10",
-    inStock: true,
-    nutritionalInfo: { calories: 112, sodium: 75, carbs: 21, sugars: 9, fat: 2.5, protein: 1.2 }
+    id: "57", name: "파워에이드", price: 1000, category: "Drink", type: "bottle", shelf: 5,
+    brandColor: "#1C3FA8", accentColor: "#FFFFFF", inStock: true,
+    nutrition: { servingSize: "600ml", calories: 160, carbs: 43, sugar: 38, protein: 0, fat: 0, sodium: 210 }
   },
 
-  // Row 1 (Bottom Row: large boxes/wafers - 4 slots)
+  // ── SHELF 6: Snacks & Chips (slots 60–67) ──
   {
-    id: "11",
-    name: "화이트하임",
-    price: 1300,
-    category: "Snack",
-    type: "box",
-    brandColor: "#ffffff",
-    accentColor: "#0a4a83",
-    inStock: true,
-    nutritionalInfo: { calories: 250, sodium: 90, carbs: 28, sugars: 16, fat: 14, protein: 3 }
+    id: "60", name: "고래밥", price: 800, category: "Snack", type: "bag", shelf: 6,
+    brandColor: "#D4710A", accentColor: "#F5C842", inStock: true,
+    nutrition: { servingSize: "55g", calories: 245, carbs: 38, sugar: 3, protein: 5, fat: 8, sodium: 380 }
   },
   {
-    id: "13",
-    name: "화이트하임",
-    price: 1300,
-    category: "Snack",
-    type: "box",
-    brandColor: "#ffffff",
-    accentColor: "#0a4a83",
-    inStock: true,
-    nutritionalInfo: { calories: 250, sodium: 90, carbs: 28, sugars: 16, fat: 14, protein: 3 }
+    id: "61", name: "고래밥", price: 800, category: "Snack", type: "bag", shelf: 6,
+    brandColor: "#D4710A", accentColor: "#F5C842", inStock: true,
+    nutrition: { servingSize: "55g", calories: 245, carbs: 38, sugar: 3, protein: 5, fat: 8, sodium: 380 }
   },
   {
-    id: "15",
-    name: "Empty Slot",
-    price: 900,
-    category: "Snack",
-    type: "box",
-    brandColor: "#e5e8eb",
-    accentColor: "#b0b8c1",
-    inStock: false,
-    nutritionalInfo: { calories: 0, sodium: 0, carbs: 0, sugars: 0, fat: 0, protein: 0 }
+    id: "62", name: "고래밥", price: 800, category: "Snack", type: "bag", shelf: 6,
+    brandColor: "#D4710A", accentColor: "#F5C842", inStock: true,
+    nutrition: { servingSize: "55g", calories: 245, carbs: 38, sugar: 3, protein: 5, fat: 8, sodium: 380 }
   },
   {
-    id: "17",
-    name: "웨하스",
-    price: 900,
-    category: "Snack",
-    type: "bag",
-    brandColor: "#e8566c",
-    accentColor: "#ffffff",
-    inStock: true,
-    nutritionalInfo: { calories: 170, sodium: 65, carbs: 22, sugars: 11, fat: 8, protein: 2 }
-  }
+    id: "63", name: "고래밥", price: 800, category: "Snack", type: "bag", shelf: 6,
+    brandColor: "#D4710A", accentColor: "#F5C842", inStock: true,
+    nutrition: { servingSize: "55g", calories: 245, carbs: 38, sugar: 3, protein: 5, fat: 8, sodium: 380 }
+  },
+  {
+    id: "64", name: "치킨팝 치즈맛", price: 1200, category: "Snack", type: "bag", shelf: 6,
+    brandColor: "#C8820A", accentColor: "#FFD166", inStock: true,
+    nutrition: { servingSize: "68g", calories: 355, carbs: 44, sugar: 2, protein: 6, fat: 16, sodium: 530 }
+  },
+  {
+    id: "65", name: "치킨팝", price: 1200, category: "Snack", type: "bag", shelf: 6,
+    brandColor: "#E8832A", accentColor: "#FFBC42", inStock: true,
+    nutrition: { servingSize: "68g", calories: 340, carbs: 45, sugar: 1, protein: 6, fat: 15, sodium: 520 }
+  },
+  {
+    id: "66", name: "치킨팝", price: 1200, category: "Snack", type: "bag", shelf: 6,
+    brandColor: "#E8832A", accentColor: "#FFBC42", inStock: true,
+    nutrition: { servingSize: "68g", calories: 340, carbs: 45, sugar: 1, protein: 6, fat: 15, sodium: 520 }
+  },
+  {
+    id: "67", name: "치킨팝", price: 1200, category: "Snack", type: "bag", shelf: 6,
+    brandColor: "#E8832A", accentColor: "#FFBC42", inStock: true,
+    nutrition: { servingSize: "68g", calories: 340, carbs: 45, sugar: 1, protein: 6, fat: 15, sodium: 520 }
+  },
 ];
