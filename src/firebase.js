@@ -73,7 +73,7 @@ export const subscribeToVendingItems = (callback) => {
         snapshot.forEach((doc) => {
           const data = doc.data();
           const localItem = localMap.get(data.id);
-          if (!localItem || data.name !== localItem.name || !data.nutrition) {
+          if (!localItem || data.name !== localItem.name || !data.nutrition || (data.v ?? 0) < 3) {
             needsMigration = true;
           }
         });
@@ -130,7 +130,7 @@ const setupMockSubscription = (callback) => {
         const localMap = new Map(initialVendingItems.map(item => [item.id, item]));
         const matches = items.every(item => {
           const localItem = localMap.get(item.id);
-          return localItem && item.name === localItem.name && item.nutritionalInfo;
+          return localItem && item.name === localItem.name && item.nutrition && (item.v ?? 0) >= 3;
         });
         if (matches) {
           needsReseed = false;
