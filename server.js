@@ -107,7 +107,7 @@ app.post('/api/analyze', async (req, res) => {
     `;
 
     // Attempt to generate content using fallback models
-    const modelsToTry = ["gemini-1.5-pro", "gemini-1.5-flash"];
+    const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash"];
     let result = null;
     let lastError = null;
 
