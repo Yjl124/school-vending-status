@@ -95,7 +95,9 @@ export const subscribeToVendingItems = (callback) => {
           await batch.commit();
           console.log("Database migration completed successfully.");
         } catch (err) {
-          console.error("Database migration failed:", err);
+          console.error("Database migration failed, falling back to local data:", err);
+          // Migration failed (likely Firestore rules) — still show data so UI doesn't hang
+          callback(initialVendingItems);
         }
       } else {
         const items = [];
