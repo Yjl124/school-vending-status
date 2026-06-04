@@ -73,7 +73,7 @@ export const subscribeToVendingItems = (callback) => {
         snapshot.forEach((doc) => {
           const data = doc.data();
           const localItem = localMap.get(data.id);
-          if (!localItem || data.name !== localItem.name || !data.nutritionalInfo) {
+          if (!localItem || data.name !== localItem.name || !data.nutrition) {
             needsMigration = true;
           }
         });
@@ -94,6 +94,7 @@ export const subscribeToVendingItems = (callback) => {
           });
           await batch.commit();
           console.log("Database migration completed successfully.");
+          callback(initialVendingItems);
         } catch (err) {
           console.error("Database migration failed, falling back to local data:", err);
           // Migration failed (likely Firestore rules) — still show data so UI doesn't hang
