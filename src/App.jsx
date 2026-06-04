@@ -8,16 +8,15 @@ import { NutritionModal } from './components/NutritionModal';
 import { getApiUrl } from './geminiService';
 import { StatusPage } from './components/StatusPage';
 
-// ── Dark theme colour tokens ──────────────────────────────────────────────────
+// ── Light theme colour tokens ─────────────────────────────────────────────────
 const C = {
-  bg:        '#0D0E1A',
-  shelf:     '#13141F',
-  card:      '#1A1B28',
-  cardHover: '#21223200',
-  border:    '#252638',
-  text:      '#F0F0FF',
-  muted:     '#8B8FA8',
-  dim:       '#4B4F68',
+  bg:        '#f2f4f6',
+  shelf:     '#ffffff',
+  card:      '#ffffff',
+  border:    '#e5e8eb',
+  text:      '#191f28',
+  muted:     '#8b95a1',
+  dim:       '#b0b8c1',
 };
 
 function App() {
@@ -173,7 +172,7 @@ function App() {
           style={{ backgroundColor: C.card, border: `1px solid ${C.border}` }}
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 flex items-center justify-center rounded-xl" style={{ backgroundColor: '#1E3A5F' }}>
+            <div className="w-8 h-8 flex items-center justify-center rounded-xl" style={{ backgroundColor: '#e8f3ff' }}>
               <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
@@ -188,26 +187,26 @@ function App() {
 
           <div className="flex flex-wrap items-center gap-2 cursor-pointer" onClick={navigateToStatus} title="System Status">
             {/* Firebase */}
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ backgroundColor: '#12131D', border: `1px solid ${C.border}`, color: C.muted }}>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ backgroundColor: '#f2f4f6', border: `1px solid ${C.border}`, color: C.muted }}>
               <StatusDot online={!isDatabaseMock()} />
               <span>Firebase:</span>
-              <span style={{ color: isDatabaseMock() ? '#FBBF24' : '#34D399', fontWeight: 700 }}>
+              <span style={{ color: isDatabaseMock() ? '#d97706' : '#3182f6', fontWeight: 700 }}>
                 {isDatabaseMock() ? 'Offline (Local)' : 'Online (Firestore)'}
               </span>
             </div>
             {/* Render */}
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ backgroundColor: '#12131D', border: `1px solid ${C.border}`, color: C.muted }}>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ backgroundColor: '#f2f4f6', border: `1px solid ${C.border}`, color: C.muted }}>
               <StatusDot online={isBackendOnline === 'online'} />
               <span>Render Server:</span>
-              <span style={{ color: isBackendOnline === 'online' ? '#34D399' : isBackendOnline === 'offline' ? '#F87171' : '#FBBF24', fontWeight: 700 }}>
+              <span style={{ color: isBackendOnline === 'online' ? '#3182f6' : isBackendOnline === 'offline' ? '#ef4444' : '#d97706', fontWeight: 700 }}>
                 {isBackendOnline === 'online' ? 'Online' : isBackendOnline === 'offline' ? 'Offline' : 'Connecting...'}
               </span>
             </div>
             {/* Gemini */}
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ backgroundColor: '#12131D', border: `1px solid ${C.border}`, color: C.muted }}>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ backgroundColor: '#f2f4f6', border: `1px solid ${C.border}`, color: C.muted }}>
               <StatusDot online={hasGemini} />
               <span>Gemini AI:</span>
-              <span style={{ color: hasGemini ? '#34D399' : '#F87171', fontWeight: 700 }}>
+              <span style={{ color: hasGemini ? '#3182f6' : '#ef4444', fontWeight: 700 }}>
                 {hasGemini ? 'Ready (2.5 Flash)' : 'Disconnected'}
               </span>
             </div>
@@ -264,7 +263,7 @@ function App() {
                       <div className="w-full flex justify-between items-center mb-2">
                         <span
                           className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-md"
-                          style={{ backgroundColor: '#12131D', color: C.muted }}
+                          style={{ backgroundColor: '#f2f4f6', color: C.muted }}
                         >
                           {item.id}
                         </span>
