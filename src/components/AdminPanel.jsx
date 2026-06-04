@@ -18,6 +18,7 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
   const [isScanning, setIsScanning] = useState(false);
   const [scanError, setScanError] = useState(null);
   const [scanSuccess, setScanSuccess] = useState(false);
+  const [scanResult, setScanResult] = useState(null);
   const [hasGemini, setHasGemini] = useState(false);
   const [isBackendOnline, setIsBackendOnline] = useState('checking'); // 'checking', 'online', 'offline'
 
@@ -65,11 +66,13 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
     setIsScanning(true);
     setScanError(null);
     setScanSuccess(false);
-    
+    setScanResult(null);
+
     try {
       const mappings = await analyzeVendingMachineImage(base64Image);
       await batchUpdateVendingItems(mappings);
       setScanSuccess(true);
+      setScanResult(mappings);
       console.log("Successfully scanned & batch updated database:", mappings);
     } catch (error) {
       console.error(error);
@@ -300,14 +303,23 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
                 </div>
               )}
 
-              {scanSuccess && (
-                <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex items-center gap-2">
-                  <svg className="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span className="text-xs text-emerald-700 font-bold">
-                    Scan successful! Real-time grid has been synchronized.
-                  </span>
+              {scanSuccess && scanResult && (
+                <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <svg className="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-xs text-emerald-700 font-bold">
+                      Scan complete! Grid synchronized — {Object.values(scanResult).filter(v => !v).length} slot(s) marked sold out.
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {Object.entries(scanResult).map(([slot, inStock]) => (
+                      <span key={slot} className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${inStock ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'}`}>
+                        {slot}: {inStock ? '✓' : '✗'}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
 

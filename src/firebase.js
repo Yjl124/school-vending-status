@@ -221,8 +221,8 @@ export const batchUpdateVendingItems = async (mappings) => {
       await batch.commit();
       console.log("Firestore batch update completed successfully.");
     } catch (error) {
-      console.error("Firestore batch update failed. Falling back to local:", error);
-      batchUpdateMockVendingItems(mappings);
+      console.error("Firestore batch update failed:", error);
+      throw new Error(`Firestore write failed — changes were NOT saved to the cloud. (${error.message})`);
     }
   } else {
     batchUpdateMockVendingItems(mappings);
