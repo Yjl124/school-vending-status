@@ -15,6 +15,7 @@ import {
 export const AdminPanel = ({ items, onClose, onLogOut }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [base64Image, setBase64Image] = useState(null);
+  const [fileName, setFileName] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const [scanError, setScanError] = useState(null);
   const [scanSuccess, setScanSuccess] = useState(false);
@@ -51,6 +52,7 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
       reader.onloadend = () => {
         setImagePreview(reader.result);
         setBase64Image(reader.result);
+        setFileName(file.name);
         setScanError(null);
         setScanSuccess(false);
       };
@@ -69,7 +71,7 @@ export const AdminPanel = ({ items, onClose, onLogOut }) => {
     setScanResult(null);
 
     try {
-      const mappings = await analyzeVendingMachineImage(base64Image);
+      const mappings = await analyzeVendingMachineImage(base64Image, fileName);
       await batchUpdateVendingItems(mappings);
       setScanSuccess(true);
       setScanResult(mappings);
