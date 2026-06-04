@@ -65,42 +65,24 @@ export const subscribeToVendingItems = (callback) => {
   if (!isMock && db) {
     const colRef = collection(db, "vending_items");
     return onSnapshot(colRef, async (snapshot) => {
-      let needsMigration = snapshot.empty || snapshot.size !== initialVendingItems.length;
-      
-      if (!needsMigration) {
-        // Compare item names and nutritionalInfo structure to trigger migration on product updates
-        const localMap = new Map(initialVendingItems.map(item => [item.id, item]));
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          const localItem = localMap.get(data.id);
-          if (!localItem || data.name !== localItem.name || !data.nutrition || (data.v ?? 0) < 3) {
-            needsMigration = true;
-          }
-        });
-      }
-
-      if (needsMigration) {
-        console.log(`Vending database migration triggered. Aligning keys and names...`);
+      // Only seed if Firestore is completely empty — never overwrite existing data
+      if (snapshot.empty) {
+        console.log("Firestore empty — seeding with initial stock data...");
         try {
           const batch = writeBatch(db);
-          // Delete all current documents in the snapshot
-          snapshot.forEach((d) => {
-            batch.delete(d.ref);
-          });
-          // Add all new items
           initialVendingItems.forEach((item) => {
             const docRef = doc(db, "vending_items", item.id);
             batch.set(docRef, item);
           });
           await batch.commit();
-          console.log("Database migration completed successfully.");
+          console.log("Seeding complete.");
           callback(initialVendingItems);
         } catch (err) {
-          console.error("Database migration failed, falling back to local data:", err);
-          // Migration failed (likely Firestore rules) — still show data so UI doesn't hang
+          console.error("Seeding failed, using local data:", err);
           callback(initialVendingItems);
         }
       } else {
+        // Use whatever is in Firestore — preserves live toggle changes
         const items = [];
         snapshot.forEach((doc) => {
           items.push(doc.data());
@@ -130,7 +112,7 @@ const setupMockSubscription = (callback) => {
         const localMap = new Map(initialVendingItems.map(item => [item.id, item]));
         const matches = items.every(item => {
           const localItem = localMap.get(item.id);
-          return localItem && item.name === localItem.name && item.nutrition && (item.v ?? 0) >= 3;
+          return localItem && item.nutrition;
         });
         if (matches) {
           needsReseed = false;
